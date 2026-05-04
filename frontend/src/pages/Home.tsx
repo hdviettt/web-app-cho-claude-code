@@ -129,7 +129,16 @@ export default function Home() {
       </header>
 
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div
+          style={{
+            flex: 1,
+            minWidth: 0,
+            overflow: 'hidden',
+            // CSS zoom co cả layout (Chromium support tốt) — canvas thực sự
+            // shrink khi panel mở, không phải clip + horizontal scroll.
+            zoom: panelOpen ? 0.7 : 1,
+          } as React.CSSProperties}
+        >
           <Roadmap selectedNodeId={selectedNodeId} onNodeClick={setSelectedNodeId} />
         </div>
         {selectedNode && (
