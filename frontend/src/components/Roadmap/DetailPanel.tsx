@@ -43,7 +43,7 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
             top: 10,
             right: 10,
             border: '2px solid #1F2937',
-            background: '#FFD93B',
+            background: 'var(--primary)',
             fontSize: 18,
             fontWeight: 700,
             cursor: 'pointer',

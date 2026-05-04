@@ -66,7 +66,7 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
           style={{
             height: '100%',
             width: `${scrollPct}%`,
-            background: '#FFD93B',
+            background: 'var(--primary)',
             borderBottom: '1px solid #1F2937',
             transition: 'width 0.05s linear',
           }}
@@ -85,7 +85,7 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
           right: 16,
           zIndex: 90,
           padding: '8px 14px',
-          background: '#FFD93B',
+          background: 'var(--primary)',
           border: '2.5px solid #1F2937',
           borderRadius: 8,
           boxShadow: '4px 4px 0 #1F2937',
@@ -148,7 +148,7 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
                 fontSize: 13,
                 fontWeight: i === activeSection ? 700 : 500,
                 color: '#1F2937',
-                background: i === activeSection ? '#FFD93B' : 'transparent',
+                background: i === activeSection ? 'var(--primary)' : 'transparent',
                 fontFamily: 'inherit',
               }}
               onMouseEnter={(e) => {

@@ -57,7 +57,7 @@ export default function Home() {
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
               color: '#1F2937',
-              background: '#FFD93B',
+              background: 'var(--primary)',
               border: '2px solid #1F2937',
               padding: '5px 12px',
               borderRadius: 999,
@@ -79,7 +79,7 @@ export default function Home() {
             }}
           >
             Đừng học code. <br />
-            Học <span style={{ background: '#FFD93B', padding: '0 8px', boxShadow: '3px 3px 0 #1F2937', display: 'inline-block', transform: 'rotate(-1deg)' }}>cấu trúc</span> của web app.
+            Học <span style={{ background: 'var(--primary)', padding: '0 8px', boxShadow: '3px 3px 0 #1F2937', display: 'inline-block', transform: 'rotate(-1deg)' }}>cấu trúc</span> của web app.
           </h1>
           <p
             style={{
@@ -106,7 +106,7 @@ export default function Home() {
               color: 'white',
               border: '2.5px solid #1F2937',
               borderRadius: 8,
-              boxShadow: '4px 4px 0 #FFD93B',
+              boxShadow: '4px 4px 0 var(--primary)',
               fontWeight: 700,
               fontSize: 14,
               letterSpacing: '0.02em',
@@ -115,7 +115,7 @@ export default function Home() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translate(-1px, -1px)'
-              e.currentTarget.style.boxShadow = '5px 5px 0 #FFD93B'
+              e.currentTarget.style.boxShadow = '5px 5px 0 var(--primary)'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translate(0, 0)'
@@ -171,7 +171,7 @@ export default function Home() {
               marginBottom: '0.5rem',
             }}
           >
-            Roadmap này là <span style={{ color: '#FFD93B' }}>open-source</span>.
+            Roadmap này là <span style={{ color: 'var(--primary)' }}>open-source</span>.
           </div>
           <p style={{ fontSize: 14, lineHeight: 1.6, color: '#CBD5E1', marginBottom: '1.5rem' }}>
             Repo public trên GitHub. Fork về sửa cho team mình. Hoặc đọc code để hiểu
@@ -187,9 +187,9 @@ export default function Home() {
                 alignItems: 'center',
                 gap: 8,
                 padding: '10px 18px',
-                background: '#FFD93B',
+                background: 'var(--primary)',
                 color: '#1F2937',
-                border: '2px solid #FFD93B',
+                border: '2px solid var(--primary)',
                 borderRadius: 6,
                 fontWeight: 700,
                 fontSize: 13,
@@ -214,8 +214,8 @@ export default function Home() {
                 gap: 8,
                 padding: '10px 18px',
                 background: 'transparent',
-                color: '#FFD93B',
-                border: '2px solid #FFD93B',
+                color: 'var(--primary)',
+                border: '2px solid var(--primary)',
                 borderRadius: 6,
                 fontWeight: 700,
                 fontSize: 13,

@@ -414,7 +414,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
 
 function primaryBoxStyle(l: NodeLayout, isSelected: boolean): CSSProperties {
   const colorMap: Record<BoxColor, string> = {
-    yellow: '#FFD93B',
+    yellow: 'var(--primary)',  // admin có thể đổi màu này qua /admin
     peach:  '#FFE4B5',
     purple: '#DDD6FE',
   }
