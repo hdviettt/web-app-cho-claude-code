@@ -7,7 +7,7 @@ interface RoadmapProps {
 }
 
 const CANVAS_W = 1200
-const CANVAS_H = 2050
+const CANVAS_H = 2090
 const SPINE_X = 600
 
 type BoxColor = 'yellow' | 'peach' | 'purple'
@@ -35,22 +35,21 @@ const layout: Record<string, NodeLayout> = {
   'be-database': { x: 490, y: 790, w: 220, h: 56, color: 'yellow' },
   'be-storage':  { x: 490, y: 890, w: 220, h: 56, color: 'yellow' },
 
-  // ═══ S4: Security — Auth là core (yellow), 4 cái khác là checklist (peach inside container) ═══
-  'sec-auth':   { x: 490, y: 1080, w: 220, h: 56, color: 'yellow' },
-  'sec-authz':  { x: 100, y: 1230, w: 220, h: 46, color: 'peach' },
-  'sec-env':    { x: 350, y: 1230, w: 220, h: 46, color: 'peach' },
-  'sec-https':  { x: 600, y: 1230, w: 220, h: 46, color: 'peach' },
-  'sec-cors':   { x: 850, y: 1230, w: 220, h: 46, color: 'peach' },
+  // ═══ S4: Security — 4 items cùng cấp trong "Web Security checklist" ═══
+  'sec-auth':   { x: 90,  y: 1080, w: 240, h: 46, color: 'peach' },
+  'sec-authz':  { x: 350, y: 1080, w: 240, h: 46, color: 'peach' },
+  'sec-env':    { x: 610, y: 1080, w: 240, h: 46, color: 'peach' },
+  'sec-cors':   { x: 870, y: 1080, w: 240, h: 46, color: 'peach' },
 
   // ═══ S5: Triển khai — Hosting/Domain là core, Docker/CI-CD là tools (peach inside container) ═══
-  'infra-hosting': { x: 490, y: 1430, w: 220, h: 56, color: 'yellow' },
-  'infra-domain':  { x: 490, y: 1530, w: 220, h: 56, color: 'yellow' },
-  'infra-docker':  { x: 220, y: 1690, w: 320, h: 38, color: 'peach' },
-  'infra-cicd':    { x: 660, y: 1690, w: 320, h: 38, color: 'peach' },
+  'infra-hosting': { x: 490, y: 1470, w: 220, h: 56, color: 'yellow' },
+  'infra-domain':  { x: 490, y: 1570, w: 220, h: 56, color: 'yellow' },
+  'infra-docker':  { x: 220, y: 1730, w: 320, h: 38, color: 'peach' },
+  'infra-cicd':    { x: 660, y: 1730, w: 320, h: 38, color: 'peach' },
 
   // ═══ S6: Source Control ═══
-  git:    { x: 490, y: 1850, w: 220, h: 56, color: 'yellow' },
-  github: { x: 490, y: 1950, w: 220, h: 56, color: 'yellow' },
+  git:    { x: 490, y: 1890, w: 220, h: 56, color: 'yellow' },
+  github: { x: 490, y: 1990, w: 220, h: 56, color: 'yellow' },
 }
 
 interface SectionTitle {
@@ -67,8 +66,8 @@ const SECTIONS: SectionTitleWithId[] = [
   { text: 'Frontend',             y: 320,  id: 'sec-frontend' },
   { text: 'Backend',              y: 600,  id: 'sec-backend' },
   { text: 'Security',             y: 990,  id: 'sec-security' },
-  { text: 'Triển khai',           y: 1340, id: 'sec-infra' },
-  { text: 'Source Control',       y: 1760, id: 'sec-source-control' },
+  { text: 'Triển khai',           y: 1380, id: 'sec-infra' },
+  { text: 'Source Control',       y: 1800, id: 'sec-source-control' },
 ]
 
 interface Container {
@@ -87,14 +86,14 @@ const CONTAINERS: Container[] = [
   { x: 60,  y: 670, w: 380, h: 130, externalLabel: 'API styles' },            // 2 be-api
   { x: 760, y: 770, w: 380, h: 130, externalLabel: 'Database lựa chọn' },     // 3 be-database
   { x: 60,  y: 870, w: 380, h: 130, externalLabel: 'Object Storage' },        // 4 be-storage
-  { x: 760, y: 1060, w: 380, h: 130, externalLabel: 'Auth methods' },         // 5 sec-auth
-  { x: 760, y: 1410, w: 380, h: 130, externalLabel: 'Hosting platform' },     // 6 infra-hosting
-  { x: 60,  y: 1510, w: 380, h: 130, externalLabel: 'Domain provider' },      // 7 infra-domain
-  { x: 760, y: 1930, w: 380, h: 130, externalLabel: 'Repo hosting' },         // 8 github
+  { x: 60,  y: 1200, w: 380, h: 130, externalLabel: 'Auth methods' },         // 5 sec-auth (alts, dưới checklist)
+  { x: 760, y: 1450, w: 380, h: 130, externalLabel: 'Hosting platform' },     // 6 infra-hosting
+  { x: 60,  y: 1550, w: 380, h: 130, externalLabel: 'Domain provider' },      // 7 infra-domain
+  { x: 760, y: 1970, w: 380, h: 130, externalLabel: 'Repo hosting' },         // 8 github
 
   // Special wrapping containers (peach items inside, label internal)
-  { x: 60,  y: 1180, w: 1080, h: 130, externalLabel: 'Web Security checklist' },     // 9 — wraps Authz/Env/HTTPS/CORS
-  { x: 180, y: 1640, w: 840,  h: 100, externalLabel: 'Tools — Claude tự lo phần lớn' }, // 10 — wraps Docker/CI-CD
+  { x: 60,  y: 1040, w: 1080, h: 130, externalLabel: 'Web Security checklist' },     // 9 — wraps 4 peach items
+  { x: 180, y: 1680, w: 840,  h: 100, externalLabel: 'Tools — Claude tự lo phần lớn' }, // 10 — wraps Docker/CI-CD
 ]
 
 interface ChipPlacement {
@@ -131,7 +130,6 @@ const EDGES: Edge[] = [
   { from: 'be-database', to: 'container:3', style: 'dotted' },
   { from: 'be-storage',  to: 'container:4', style: 'dotted' },
   { from: 'sec-auth', to: 'container:5', style: 'dotted' },
-  { from: 'sec-auth', to: 'container:9', style: 'solid' },     // Auth → Web Security checklist
   { from: 'infra-hosting', to: 'container:6', style: 'dotted' },
   { from: 'infra-domain',  to: 'container:7', style: 'dotted' },
   { from: 'infra-domain',  to: 'container:10', style: 'solid' }, // Domain → Tools container
@@ -246,8 +244,8 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
               C ${SPINE_X} 200, ${SPINE_X + 12} 200, ${SPINE_X + 12} 320
               C ${SPINE_X + 12} 480, ${SPINE_X - 12} 480, ${SPINE_X - 12} 600
               C ${SPINE_X - 12} 800, ${SPINE_X + 15} 800, ${SPINE_X + 15} 990
-              C ${SPINE_X + 15} 1160, ${SPINE_X - 15} 1160, ${SPINE_X - 15} 1340
-              C ${SPINE_X - 15} 1560, ${SPINE_X + 12} 1560, ${SPINE_X + 12} 1760
+              C ${SPINE_X + 15} 1180, ${SPINE_X - 15} 1180, ${SPINE_X - 15} 1380
+              C ${SPINE_X - 15} 1600, ${SPINE_X + 12} 1600, ${SPINE_X + 12} 1800
               L ${SPINE_X + 12} ${CANVAS_H - 30}
             `}
             stroke="#3B82F6"
@@ -355,7 +353,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           const l = layout[node.id]
           if (!l) return null
           const isSelected = node.id === selectedNodeId
-          const isChecklistItem = node.id.startsWith('sec-') && node.id !== 'sec-auth'
+          const isChecklistItem = node.id.startsWith('sec-')
           return (
             <button
               key={node.id}

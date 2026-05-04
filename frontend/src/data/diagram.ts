@@ -312,21 +312,6 @@ CREATE TABLE site_config (
       'Quên thêm `.env` vào `.gitignore`. Hoặc commit `.env` đầu tiên trước khi nhớ ra. File đã vào git history thì khó xóa hết. Quy tắc: thêm `.env` vào `.gitignore` NGAY khi tạo project.',
   },
   {
-    id: 'sec-https',
-    cluster: 'security',
-    label: 'HTTPS / SSL',
-    whatIs:
-      'Mã hóa data giữa trình duyệt và server. URL bắt đầu `https://` (có ổ khóa) thay vì `http://` (không có). Nếu không HTTPS, password user gõ có thể bị nghe lén trên wifi công cộng.',
-    whereInProject:
-      'Railway tự cấp HTTPS miễn phí cho mọi service. URL `https://backend-production-...up.railway.app` đã có sẵn ổ khóa.',
-    whenToCare:
-      'Mọi dự án production. Không có lý do nào không dùng HTTPS năm 2026 — Railway/Vercel/Cloudflare đều free.',
-    vidu:
-      'User login trên wifi quán cà phê. HTTP: hacker ngồi cùng quán đọc được password trong 30 giây. HTTPS: hacker thấy gibberish, không decode được.',
-    loiThuongGap:
-      'Dev local dùng `http://localhost`, prod cũng quên đổi `https://`. Hosting tự lo — nhưng phải nhớ check. Quy tắc: prod URL luôn `https://`.',
-  },
-  {
     id: 'sec-cors',
     cluster: 'security',
     label: 'CORS',

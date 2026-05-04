@@ -13,16 +13,13 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
   return (
     <aside
       style={{
-        position: 'fixed',
-        right: 0,
+        position: 'sticky',
         top: 0,
-        bottom: 0,
-        width: 'min(480px, 92vw)',
+        width: '100%',
+        height: '100vh',
         background: 'white',
-        borderLeft: '1px solid var(--border)',
-        boxShadow: '-12px 0 32px rgba(0, 0, 0, 0.08)',
+        borderLeft: '2.5px solid #1F2937',
         overflow: 'auto',
-        zIndex: 50,
         animation: 'slideIn 0.2s ease',
       }}
     >
@@ -39,20 +36,37 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
       >
         <button
           onClick={onClose}
-          aria-label="Đóng"
+          aria-label="Đóng (ESC)"
+          title="Đóng (ESC)"
           style={{
             position: 'absolute',
-            top: 12,
-            right: 12,
-            border: 'none',
-            background: 'transparent',
-            fontSize: 24,
+            top: 10,
+            right: 10,
+            border: '2px solid #1F2937',
+            background: '#FFD93B',
+            fontSize: 18,
+            fontWeight: 700,
             cursor: 'pointer',
-            color: 'var(--muted)',
+            color: '#1F2937',
             padding: 0,
             width: 36,
             height: 36,
             lineHeight: 1,
+            borderRadius: 6,
+            boxShadow: '2px 2px 0 #1F2937',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'transform 0.08s, box-shadow 0.08s',
+            fontFamily: 'inherit',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translate(-1px, -1px)'
+            e.currentTarget.style.boxShadow = '3px 3px 0 #1F2937'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)'
+            e.currentTarget.style.boxShadow = '2px 2px 0 #1F2937'
           }}
         >
           ×

@@ -9,7 +9,11 @@ const SECTIONS = [
   { id: 'sec-source-control', label: 'Source Control' },
 ]
 
-export function Wayfinding() {
+interface WayfindingProps {
+  panelOpen?: boolean
+}
+
+export function Wayfinding({ panelOpen = false }: WayfindingProps) {
   const [scrollPct, setScrollPct] = useState(0)
   const [activeSection, setActiveSection] = useState(0)
   const [tocOpen, setTocOpen] = useState(false)
@@ -69,7 +73,8 @@ export function Wayfinding() {
         />
       </div>
 
-      {/* TOC button — fixed top-right corner */}
+      {/* TOC button — ẩn khi DetailPanel mở để tránh đè close button */}
+      {!panelOpen && (
       <button
         type="button"
         onClick={() => setTocOpen((o) => !o)}
@@ -107,9 +112,10 @@ export function Wayfinding() {
         <span>{SECTIONS[activeSection].label}</span>
         <span style={{ fontSize: 11 }}>{tocOpen ? '▲' : '▼'}</span>
       </button>
+      )}
 
       {/* TOC dropdown */}
-      {tocOpen && (
+      {!panelOpen && tocOpen && (
         <div
           style={{
             position: 'fixed',

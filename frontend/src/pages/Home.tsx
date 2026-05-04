@@ -17,13 +17,25 @@ export default function Home() {
       .catch((err) => console.error('Không fetch được config:', err))
   }, [])
 
+  // ESC key đóng panel
+  useEffect(() => {
+    if (!selectedNodeId) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setSelectedNodeId(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [selectedNodeId])
+
   const selectedNode = selectedNodeId
     ? diagramNodes.find((n) => n.id === selectedNodeId)
     : null
 
+  const panelOpen = !!selectedNode
+
   return (
     <div style={{ minHeight: '100vh', background: 'var(--surface)' }}>
-      <Wayfinding />
+      <Wayfinding panelOpen={panelOpen} />
 
       <header
         style={{
@@ -116,11 +128,22 @@ export default function Home() {
         </div>
       </header>
 
-      <Roadmap selectedNodeId={selectedNodeId} onNodeClick={setSelectedNodeId} />
-
-      {selectedNode && (
-        <DetailPanel node={selectedNode} onClose={() => setSelectedNodeId(null)} />
-      )}
+      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <Roadmap selectedNodeId={selectedNodeId} onNodeClick={setSelectedNodeId} />
+        </div>
+        {selectedNode && (
+          <div
+            style={{
+              flexBasis: 480,
+              flexShrink: 0,
+              alignSelf: 'stretch',
+            }}
+          >
+            <DetailPanel node={selectedNode} onClose={() => setSelectedNodeId(null)} />
+          </div>
+        )}
+      </div>
 
       <footer
         style={{
