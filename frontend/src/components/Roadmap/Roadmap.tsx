@@ -10,7 +10,7 @@ const CANVAS_W = 1200
 const CANVAS_H = 2090
 const SPINE_X = 600
 
-type BoxColor = 'yellow' | 'peach' | 'purple'
+type BoxColor = 'yellow' | 'peach'
 
 interface NodeLayout {
   x: number
@@ -26,9 +26,9 @@ const layout: Record<string, NodeLayout> = {
 
   // ═══ S2: Frontend ═══
   'fe-framework':  { x: 490, y: 410, w: 220, h: 56, color: 'yellow' },
-  'fe-html':       { x: 290, y: 510, w: 130, h: 38, color: 'purple' },
-  'fe-css':        { x: 470, y: 510, w: 130, h: 38, color: 'purple' },
-  'fe-javascript': { x: 650, y: 510, w: 150, h: 38, color: 'purple' },
+  'fe-html':       { x: 290, y: 510, w: 130, h: 38, color: 'peach' },
+  'fe-css':        { x: 470, y: 510, w: 130, h: 38, color: 'peach' },
+  'fe-javascript': { x: 650, y: 510, w: 150, h: 38, color: 'peach' },
 
   // ═══ S3: Backend ═══
   'be-api':      { x: 490, y: 690, w: 220, h: 56, color: 'yellow' },
@@ -248,7 +248,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
               C ${SPINE_X - 15} 1600, ${SPINE_X + 12} 1600, ${SPINE_X + 12} 1800
               L ${SPINE_X + 12} ${CANVAS_H - 30}
             `}
-            stroke="#3B82F6"
+            stroke="#27272A"
             strokeWidth={2.5}
             fill="none"
             strokeLinecap="round"
@@ -262,7 +262,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
               width={c.w}
               height={c.h}
               fill="white"
-              stroke="#1F2937"
+              stroke="#18181B"
               strokeWidth={2}
               rx={8}
             />
@@ -277,7 +277,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
               <path
                 key={`e-${i}`}
                 d={bezier(fx, fy, tx, ty)}
-                stroke="#3B82F6"
+                stroke="#27272A"
                 strokeWidth={2}
                 fill="none"
                 strokeDasharray={edge.style === 'dotted' ? '2 5' : undefined}
@@ -296,9 +296,9 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
               top: c.y - 18,
               transform: 'translateX(-50%)',
               fontSize: 11,
-              fontWeight: 700,
-              color: '#64748B',
-              letterSpacing: '0.04em',
+              fontWeight: 600,
+              color: '#A1A1AA',
+              letterSpacing: '0.05em',
               textTransform: 'uppercase',
               zIndex: 3,
               whiteSpace: 'nowrap',
@@ -319,9 +319,9 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
               top: s.y,
               transform: 'translateX(-50%)',
               display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              padding: '4px 18px',
+              alignItems: 'baseline',
+              gap: 14,
+              padding: '4px 24px',
               background: 'var(--surface)',
               zIndex: 3,
               whiteSpace: 'nowrap',
@@ -329,21 +329,16 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           >
             <span
               style={{
-                width: 28,
-                height: 28,
-                borderRadius: '50%',
-                background: '#1F2937',
-                color: 'white',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 12,
-                fontWeight: 700,
+                fontSize: 13,
+                fontWeight: 600,
+                color: '#A1A1AA',
+                letterSpacing: '0.05em',
+                fontFamily: 'JetBrains Mono, monospace',
               }}
             >
-              {idx + 1}
+              {String(idx + 1).padStart(2, '0')}
             </span>
-            <span style={{ fontSize: 24, fontWeight: 800, color: '#1F2937', letterSpacing: '-0.015em' }}>
+            <span style={{ fontSize: 28, fontWeight: 800, color: '#18181B', letterSpacing: '-0.02em' }}>
               {s.text}
             </span>
           </div>
@@ -370,7 +365,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
                   style={{ marginRight: 8, flexShrink: 0 }}
                   aria-hidden
                 >
-                  <circle cx={8} cy={8} r={7} fill="#10B981" stroke="#1F2937" strokeWidth={1.5} />
+                  <circle cx={8} cy={8} r={7} fill="#10B981" stroke="#18181B" strokeWidth={1.5} />
                   <path
                     d="M5 8 L7 10 L11 6"
                     stroke="white"
@@ -416,7 +411,6 @@ function primaryBoxStyle(l: NodeLayout, isSelected: boolean): CSSProperties {
   const colorMap: Record<BoxColor, string> = {
     yellow: 'var(--primary)',  // admin có thể đổi màu này qua /admin
     peach:  '#FFE4B5',
-    purple: '#DDD6FE',
   }
   const bg = isSelected ? '#FCA5A5' : colorMap[l.color]
   return {
@@ -428,15 +422,15 @@ function primaryBoxStyle(l: NodeLayout, isSelected: boolean): CSSProperties {
     width: l.w,
     height: l.h,
     background: bg,
-    border: '2.5px solid #1F2937',
+    border: '2.5px solid #18181B',
     borderRadius: 7,
-    boxShadow: '4px 4px 0 #1F2937',
+    boxShadow: '4px 4px 0 #18181B',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: l.h < 45 ? 13 : 14,
     fontWeight: l.h < 45 ? 500 : 600,
-    color: '#1F2937',
+    color: '#18181B',
     cursor: 'pointer',
     textAlign: 'center',
     padding: '0 10px',
@@ -452,9 +446,9 @@ function chipStyle(x: number, y: number): CSSProperties {
     width: CHIP_W,
     height: CHIP_H,
     background: '#FFE4B5',
-    border: '1.5px solid #1F2937',
+    border: '1.5px solid #18181B',
     borderRadius: 5,
-    boxShadow: '2px 2px 0 #1F2937',
+    boxShadow: '2px 2px 0 #18181B',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -462,7 +456,7 @@ function chipStyle(x: number, y: number): CSSProperties {
     padding: '0 8px',
     fontSize: 11.5,
     fontWeight: 500,
-    color: '#1F2937',
+    color: '#18181B',
     zIndex: 4,
   }
 }

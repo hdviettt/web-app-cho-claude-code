@@ -67,7 +67,7 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
             height: '100%',
             width: `${scrollPct}%`,
             background: 'var(--primary)',
-            borderBottom: '1px solid #1F2937',
+            borderBottom: '1px solid #18181B',
             transition: 'width 0.05s linear',
           }}
         />
@@ -86,12 +86,12 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
           zIndex: 90,
           padding: '8px 14px',
           background: 'var(--primary)',
-          border: '2.5px solid #1F2937',
+          border: '2.5px solid #18181B',
           borderRadius: 8,
-          boxShadow: '4px 4px 0 #1F2937',
+          boxShadow: '4px 4px 0 #18181B',
           fontSize: 13,
           fontWeight: 700,
-          color: '#1F2937',
+          color: '#18181B',
           cursor: 'pointer',
           fontFamily: 'inherit',
           display: 'flex',
@@ -101,11 +101,11 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translate(-1px, -1px)'
-          e.currentTarget.style.boxShadow = '5px 5px 0 #1F2937'
+          e.currentTarget.style.boxShadow = '5px 5px 0 #18181B'
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translate(0, 0)'
-          e.currentTarget.style.boxShadow = '4px 4px 0 #1F2937'
+          e.currentTarget.style.boxShadow = '4px 4px 0 #18181B'
         }}
       >
         <span style={{ opacity: 0.6, fontSize: 11 }}>{activeSection + 1}/6</span>
@@ -124,9 +124,9 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
             zIndex: 90,
             width: 260,
             background: 'white',
-            border: '2.5px solid #1F2937',
+            border: '2.5px solid #18181B',
             borderRadius: 8,
-            boxShadow: '6px 6px 0 #1F2937',
+            boxShadow: '6px 6px 0 #18181B',
             padding: 8,
           }}
         >
@@ -147,7 +147,7 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
                 borderRadius: 6,
                 fontSize: 13,
                 fontWeight: i === activeSection ? 700 : 500,
-                color: '#1F2937',
+                color: '#18181B',
                 background: i === activeSection ? 'var(--primary)' : 'transparent',
                 fontFamily: 'inherit',
               }}
@@ -163,7 +163,7 @@ export function Wayfinding({ panelOpen = false }: WayfindingProps) {
                   width: 22,
                   height: 22,
                   borderRadius: '50%',
-                  background: i === activeSection ? '#1F2937' : '#E2E8F0',
+                  background: i === activeSection ? '#18181B' : '#E2E8F0',
                   color: i === activeSection ? 'white' : '#64748B',
                   display: 'inline-flex',
                   alignItems: 'center',

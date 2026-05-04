@@ -66,11 +66,11 @@ button.primary {
 }
 .roadmap-box:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0 #1F2937 !important;
+  box-shadow: 5px 5px 0 #18181B !important;
 }
 .roadmap-box:active {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 #1F2937 !important;
+  box-shadow: 2px 2px 0 #18181B !important;
 }
 
 /* Alt chip lift effect — same brutalist style */
@@ -80,7 +80,7 @@ button.primary {
 }
 .roadmap-chip:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 #1F2937 !important;
+  box-shadow: 3px 3px 0 #18181B !important;
 }
 
 /* Spine subtle pulse to suggest "alive flow" */

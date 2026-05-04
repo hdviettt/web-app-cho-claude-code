@@ -40,7 +40,7 @@ export default function Home() {
       <header
         style={{
           background: 'white',
-          borderBottom: '2.5px solid #1F2937',
+          borderBottom: '2.5px solid #18181B',
           padding: '4rem 1.5rem 3rem',
           textAlign: 'center',
           position: 'relative',
@@ -56,16 +56,16 @@ export default function Home() {
               fontWeight: 700,
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              color: '#1F2937',
+              color: '#18181B',
               background: 'var(--primary)',
-              border: '2px solid #1F2937',
+              border: '2px solid #18181B',
               padding: '5px 12px',
               borderRadius: 999,
-              boxShadow: '3px 3px 0 #1F2937',
+              boxShadow: '3px 3px 0 #18181B',
               marginBottom: '1.75rem',
             }}
           >
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#1F2937' }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18181B' }} />
             Buổi 2 · Khóa Claude Code cho SEO
           </div>
           <h1
@@ -75,11 +75,11 @@ export default function Home() {
               fontWeight: 800,
               letterSpacing: '-0.025em',
               lineHeight: 1.05,
-              color: '#1F2937',
+              color: '#18181B',
             }}
           >
             Đừng học code. <br />
-            Học <span style={{ background: 'var(--primary)', padding: '0 8px', boxShadow: '3px 3px 0 #1F2937', display: 'inline-block', transform: 'rotate(-1deg)' }}>cấu trúc</span> của web app.
+            Học <span style={{ background: 'var(--primary)', padding: '0 8px', boxShadow: '3px 3px 0 #18181B', display: 'inline-block', transform: 'rotate(-1deg)' }}>cấu trúc</span> của web app.
           </h1>
           <p
             style={{
@@ -90,7 +90,7 @@ export default function Home() {
               maxWidth: 640,
             }}
           >
-            <strong style={{ color: '#1F2937' }}>19 khái niệm</strong> marketer cần biết để build web app với Claude Code.
+            <strong style={{ color: '#18181B' }}>19 khái niệm</strong> marketer cần biết để build web app với Claude Code.
             Khi Claude nói "đã thêm endpoint backend" — mình hiểu nó vừa đụng đến đâu.
             Bấm vào từng box bên dưới để mở.
           </p>
@@ -102,11 +102,11 @@ export default function Home() {
               gap: 8,
               marginTop: '2rem',
               padding: '12px 24px',
-              background: '#1F2937',
-              color: 'white',
-              border: '2.5px solid #1F2937',
+              background: 'var(--primary)',
+              color: '#18181B',
+              border: '2.5px solid #18181B',
               borderRadius: 8,
-              boxShadow: '4px 4px 0 var(--primary)',
+              boxShadow: '4px 4px 0 #18181B',
               fontWeight: 700,
               fontSize: 14,
               letterSpacing: '0.02em',
@@ -115,11 +115,11 @@ export default function Home() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translate(-1px, -1px)'
-              e.currentTarget.style.boxShadow = '5px 5px 0 var(--primary)'
+              e.currentTarget.style.boxShadow = '5px 5px 0 #18181B'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translate(0, 0)'
-              e.currentTarget.style.boxShadow = '4px 4px 0 #FFD93B'
+              e.currentTarget.style.boxShadow = '4px 4px 0 #18181B'
             }}
           >
             Bắt đầu từ đây
@@ -157,9 +157,9 @@ export default function Home() {
       <footer
         style={{
           padding: '3rem 1.5rem',
-          background: '#1F2937',
+          background: '#18181B',
           color: '#E2E8F0',
-          borderTop: '2.5px solid #1F2937',
+          borderTop: '2.5px solid #18181B',
         }}
       >
         <div style={{ maxWidth: 820, margin: '0 auto', textAlign: 'center' }}>
@@ -188,7 +188,7 @@ export default function Home() {
                 gap: 8,
                 padding: '10px 18px',
                 background: 'var(--primary)',
-                color: '#1F2937',
+                color: '#18181B',
                 border: '2px solid var(--primary)',
                 borderRadius: 6,
                 fontWeight: 700,

@@ -18,7 +18,7 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
         width: '100%',
         height: '100vh',
         background: 'white',
-        borderLeft: '2.5px solid #1F2937',
+        borderLeft: '2.5px solid #18181B',
         overflow: 'auto',
         animation: 'slideIn 0.2s ease',
       }}
@@ -26,8 +26,7 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
       <header
         style={{
           padding: '1.25rem 1.5rem 1rem',
-          borderBottom: '1px solid var(--border)',
-          borderTop: `3px solid ${cluster.accent}`,
+          borderBottom: '2.5px solid #18181B',
           position: 'sticky',
           top: 0,
           background: 'white',
@@ -42,18 +41,18 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
             position: 'absolute',
             top: 10,
             right: 10,
-            border: '2px solid #1F2937',
+            border: '2px solid #18181B',
             background: 'var(--primary)',
             fontSize: 18,
             fontWeight: 700,
             cursor: 'pointer',
-            color: '#1F2937',
+            color: '#18181B',
             padding: 0,
             width: 36,
             height: 36,
             lineHeight: 1,
             borderRadius: 6,
-            boxShadow: '2px 2px 0 #1F2937',
+            boxShadow: '2px 2px 0 #18181B',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -62,11 +61,11 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translate(-1px, -1px)'
-            e.currentTarget.style.boxShadow = '3px 3px 0 #1F2937'
+            e.currentTarget.style.boxShadow = '3px 3px 0 #18181B'
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translate(0, 0)'
-            e.currentTarget.style.boxShadow = '2px 2px 0 #1F2937'
+            e.currentTarget.style.boxShadow = '2px 2px 0 #18181B'
           }}
         >
           ×
@@ -74,16 +73,16 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
         <div
           style={{
             fontSize: 11,
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: cluster.accent,
-            marginBottom: 4,
+            color: '#71717A',
+            marginBottom: 6,
           }}
         >
           {cluster.title}
         </div>
-        <h2 style={{ margin: 0, fontSize: 22, fontWeight: 600 }}>{node.label}</h2>
+        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 800, letterSpacing: '-0.015em', color: '#18181B' }}>{node.label}</h2>
       </header>
 
       <div style={{ padding: '1.5rem' }}>
@@ -95,9 +94,9 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
                 fontSize: 11,
                 textTransform: 'uppercase',
                 letterSpacing: '0.06em',
-                color: cluster.accent,
+                color: '#71717A',
                 margin: '0 0 0.6rem',
-                fontWeight: 600,
+                fontWeight: 700,
               }}
             >
               Lựa chọn khác
@@ -116,7 +115,7 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
                 >
                   {alt.iconSlug ? (
                     <img
-                      src={`https://cdn.simpleicons.org/${alt.iconSlug}/${cluster.accent.slice(1)}`}
+                      src={`https://cdn.simpleicons.org/${alt.iconSlug}/27272A`}
                       width={18}
                       height={18}
                       alt=""
@@ -138,12 +137,12 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
         )}
         <Section title="Nằm ở đâu trong repo?">{node.whereInProject}</Section>
         <Section title="Khi nào care?">{node.whenToCare}</Section>
-        {node.vidu && <Section title="Ví dụ thực tế" accent={cluster.accent}>{node.vidu}</Section>}
+        {node.vidu && <Section title="Ví dụ thực tế">{node.vidu}</Section>}
         {node.loiThuongGap && (
           <Section title="Lỗi thường gặp" accent="#dc2626">{node.loiThuongGap}</Section>
         )}
         {node.code && (
-          <CodeSection code={node.code} lang={node.codeLang ?? 'bash'} accent={cluster.accent} />
+          <CodeSection code={node.code} lang={node.codeLang ?? 'bash'} />
         )}
         {node.readMore && (
           <Section title="Đọc thêm">
@@ -151,7 +150,7 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
               href={node.readMore}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: cluster.accent, wordBreak: 'break-all' }}
+              style={{ color: '#18181B', wordBreak: 'break-all', textDecoration: 'underline' }}
             >
               {node.readMore}
             </a>
@@ -178,9 +177,9 @@ function Section({
           fontSize: 11,
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
-          color: accent ?? 'var(--muted)',
+          color: accent ?? '#71717A',
           margin: '0 0 0.5rem',
-          fontWeight: 600,
+          fontWeight: 700,
         }}
       >
         {title}
@@ -190,7 +189,7 @@ function Section({
   )
 }
 
-function CodeSection({ code, lang, accent }: { code: string; lang: string; accent: string }) {
+function CodeSection({ code, lang }: { code: string; lang: string }) {
   return (
     <section style={{ marginBottom: '1.5rem' }}>
       <div
@@ -206,9 +205,9 @@ function CodeSection({ code, lang, accent }: { code: string; lang: string; accen
             fontSize: 11,
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
-            color: accent,
+            color: '#71717A',
             margin: 0,
-            fontWeight: 600,
+            fontWeight: 700,
           }}
         >
           Code mẫu
