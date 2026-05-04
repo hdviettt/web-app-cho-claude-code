@@ -54,7 +54,8 @@ async def login(
         key=SESSION_COOKIE_NAME,
         value=token,
         httponly=True,
-        samesite="lax",
+        samesite="none",  # cross-origin (frontend & backend ở khác domain Railway)
+        secure=True,       # bắt buộc đi cùng SameSite=None
         max_age=int(SESSION_TTL.total_seconds()),
     )
     return OkResponse(ok=True)
@@ -68,7 +69,7 @@ async def logout(
 ) -> OkResponse:
     """Xóa session khỏi DB + clear cookie."""
     await delete_session(db, admin.id)
-    response.delete_cookie(SESSION_COOKIE_NAME)
+    response.delete_cookie(SESSION_COOKIE_NAME, samesite="none", secure=True)
     return OkResponse(ok=True)
 
 
