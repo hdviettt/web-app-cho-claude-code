@@ -7,7 +7,7 @@ interface RoadmapProps {
 }
 
 const CANVAS_W = 1200
-const CANVAS_H = 2300
+const CANVAS_H = 2050
 const SPINE_X = 600
 
 type BoxColor = 'yellow' | 'peach' | 'purple'
@@ -35,22 +35,22 @@ const layout: Record<string, NodeLayout> = {
   'be-database': { x: 490, y: 790, w: 220, h: 56, color: 'yellow' },
   'be-storage':  { x: 490, y: 890, w: 220, h: 56, color: 'yellow' },
 
-  // ═══ S4: Security ═══
+  // ═══ S4: Security — Auth là core (yellow), 4 cái khác là checklist (peach inside container) ═══
   'sec-auth':   { x: 490, y: 1080, w: 220, h: 56, color: 'yellow' },
-  'sec-authz':  { x: 490, y: 1180, w: 220, h: 56, color: 'yellow' },
-  'sec-env':    { x: 490, y: 1280, w: 220, h: 56, color: 'yellow' },
-  'sec-https':  { x: 490, y: 1380, w: 220, h: 56, color: 'yellow' },
-  'sec-cors':   { x: 490, y: 1480, w: 220, h: 56, color: 'yellow' },
+  'sec-authz':  { x: 100, y: 1240, w: 220, h: 38, color: 'peach' },
+  'sec-env':    { x: 350, y: 1240, w: 220, h: 38, color: 'peach' },
+  'sec-https':  { x: 600, y: 1240, w: 220, h: 38, color: 'peach' },
+  'sec-cors':   { x: 850, y: 1240, w: 220, h: 38, color: 'peach' },
 
-  // ═══ S5: Triển khai ═══
-  'infra-docker':  { x: 490, y: 1680, w: 220, h: 56, color: 'yellow' },
-  'infra-hosting': { x: 490, y: 1780, w: 220, h: 56, color: 'yellow' },
-  'infra-cicd':    { x: 490, y: 1880, w: 220, h: 56, color: 'yellow' },
-  'infra-domain':  { x: 490, y: 1980, w: 220, h: 56, color: 'yellow' },
+  // ═══ S5: Triển khai — Hosting/Domain là core, Docker/CI-CD là tools (peach inside container) ═══
+  'infra-hosting': { x: 490, y: 1430, w: 220, h: 56, color: 'yellow' },
+  'infra-domain':  { x: 490, y: 1530, w: 220, h: 56, color: 'yellow' },
+  'infra-docker':  { x: 220, y: 1690, w: 320, h: 38, color: 'peach' },
+  'infra-cicd':    { x: 660, y: 1690, w: 320, h: 38, color: 'peach' },
 
-  // ═══ S6: Source Control (cuối) ═══
-  git:    { x: 490, y: 2160, w: 220, h: 56, color: 'yellow' },
-  github: { x: 490, y: 2260, w: 220, h: 56, color: 'yellow' },
+  // ═══ S6: Source Control ═══
+  git:    { x: 490, y: 1850, w: 220, h: 56, color: 'yellow' },
+  github: { x: 490, y: 1950, w: 220, h: 56, color: 'yellow' },
 }
 
 interface SectionTitle {
@@ -63,8 +63,8 @@ const SECTIONS: SectionTitle[] = [
   { text: 'Frontend',             y: 320 },
   { text: 'Backend',              y: 600 },
   { text: 'Security',             y: 990 },
-  { text: 'Triển khai',           y: 1590 },
-  { text: 'Source Control',       y: 2070 },
+  { text: 'Triển khai',           y: 1340 },
+  { text: 'Source Control',       y: 1760 },
 ]
 
 interface Container {
@@ -73,20 +73,24 @@ interface Container {
   w: number
   h: number
   externalLabel: string
-  side: 'left' | 'right'
+  internalLabel?: boolean // label nằm bên trong container thay vì bên ngoài
 }
 
 const CONTAINERS: Container[] = [
-  { x: 60,  y: 180, w: 380, h: 130, externalLabel: 'Lựa chọn ngôn ngữ',     side: 'left' },     // language
-  { x: 760, y: 390, w: 380, h: 130, externalLabel: 'Framework lựa chọn',    side: 'right' },    // fe-framework
-  { x: 60,  y: 670, w: 380, h: 130, externalLabel: 'API styles',            side: 'left' },     // be-api
-  { x: 760, y: 770, w: 380, h: 130, externalLabel: 'Database lựa chọn',     side: 'right' },    // be-database
-  { x: 60,  y: 870, w: 380, h: 130, externalLabel: 'Object Storage',        side: 'left' },     // be-storage
-  { x: 760, y: 1060, w: 380, h: 130, externalLabel: 'Auth methods',         side: 'right' },    // sec-auth
-  { x: 760, y: 1760, w: 380, h: 130, externalLabel: 'Hosting platform',     side: 'right' },    // infra-hosting
-  { x: 60,  y: 1860, w: 380, h: 100, externalLabel: 'CI/CD',                side: 'left' },     // infra-cicd
-  { x: 760, y: 1960, w: 380, h: 100, externalLabel: 'Domain provider',      side: 'right' },    // infra-domain
-  { x: 760, y: 2240, w: 380, h: 100, externalLabel: 'Repo hosting',         side: 'right' },    // github
+  // Alt chip containers (label external uppercase gray on top)
+  { x: 60,  y: 180, w: 380, h: 130, externalLabel: 'Lựa chọn ngôn ngữ' },     // 0 language
+  { x: 760, y: 390, w: 380, h: 130, externalLabel: 'Framework lựa chọn' },    // 1 fe-framework
+  { x: 60,  y: 670, w: 380, h: 130, externalLabel: 'API styles' },            // 2 be-api
+  { x: 760, y: 770, w: 380, h: 130, externalLabel: 'Database lựa chọn' },     // 3 be-database
+  { x: 60,  y: 870, w: 380, h: 130, externalLabel: 'Object Storage' },        // 4 be-storage
+  { x: 760, y: 1060, w: 380, h: 130, externalLabel: 'Auth methods' },         // 5 sec-auth
+  { x: 760, y: 1410, w: 380, h: 130, externalLabel: 'Hosting platform' },     // 6 infra-hosting
+  { x: 60,  y: 1510, w: 380, h: 130, externalLabel: 'Domain provider' },      // 7 infra-domain
+  { x: 760, y: 1930, w: 380, h: 130, externalLabel: 'Repo hosting' },         // 8 github
+
+  // Special wrapping containers (peach items inside, label internal)
+  { x: 60,  y: 1190, w: 1080, h: 110, externalLabel: 'Web Security checklist' },     // 9 — wraps Authz/Env/HTTPS/CORS
+  { x: 180, y: 1640, w: 840,  h: 100, externalLabel: 'Tools triển khai (Claude tự lo phần lớn)' }, // 10 — wraps Docker/CI-CD
 ]
 
 interface ChipPlacement {
@@ -103,9 +107,8 @@ const CHIP_PLACEMENTS: ChipPlacement[] = [
   { parentId: 'be-storage',     containerIdx: 4, cols: 1 },
   { parentId: 'sec-auth',       containerIdx: 5, cols: 2 },
   { parentId: 'infra-hosting',  containerIdx: 6, cols: 2 },
-  { parentId: 'infra-cicd',     containerIdx: 7, cols: 2 },
-  { parentId: 'infra-domain',   containerIdx: 8, cols: 2 },
-  { parentId: 'github',         containerIdx: 9, cols: 2 },
+  { parentId: 'infra-domain',   containerIdx: 7, cols: 2 },
+  { parentId: 'github',         containerIdx: 8, cols: 2 },
 ]
 
 interface Edge {
@@ -124,10 +127,11 @@ const EDGES: Edge[] = [
   { from: 'be-database', to: 'container:3', style: 'dotted' },
   { from: 'be-storage',  to: 'container:4', style: 'dotted' },
   { from: 'sec-auth', to: 'container:5', style: 'dotted' },
+  { from: 'sec-auth', to: 'container:9', style: 'solid' },     // Auth → Web Security checklist
   { from: 'infra-hosting', to: 'container:6', style: 'dotted' },
-  { from: 'infra-cicd',    to: 'container:7', style: 'dotted' },
-  { from: 'infra-domain',  to: 'container:8', style: 'dotted' },
-  { from: 'github', to: 'container:9', style: 'dotted' },
+  { from: 'infra-domain',  to: 'container:7', style: 'dotted' },
+  { from: 'infra-domain',  to: 'container:10', style: 'solid' }, // Domain → Tools container
+  { from: 'github', to: 'container:8', style: 'dotted' },
 ]
 
 // ─── Helpers ───────────────────────────────────────────────────────

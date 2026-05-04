@@ -68,8 +68,9 @@ export default function Home() {
               lineHeight: 1.55,
             }}
           >
-            Anatomy của một web app fullstack — qua chính website này. Bấm vào từng node để
-            xem định nghĩa, ví dụ thực tế, lỗi thường gặp, và code mẫu.
+            Anatomy của một web app fullstack — 19 khái niệm tối thiểu marketer cần biết để
+            build với Claude Code. Bấm vào từng box để xem định nghĩa, ví dụ thực tế,
+            lỗi thường gặp, và lựa chọn khác.
           </p>
         </div>
       </header>
