@@ -5,6 +5,7 @@ build/
 .vite/
 *.log
 .eslintcache
+*.tsbuildinfo
 
 # Python
 __pycache__/
