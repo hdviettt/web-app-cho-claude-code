@@ -1,0 +1,38 @@
+# Node
+node_modules/
+dist/
+build/
+.vite/
+*.log
+.eslintcache
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Coverage / test artifacts
+coverage/
+.coverage
+htmlcov/
+
+# Local DB dumps
+*.sqlite
+*.db
