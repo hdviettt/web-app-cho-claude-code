@@ -51,3 +51,16 @@ button.primary {
   from { transform: translateX(100%); opacity: 0.5; }
   to   { transform: translateX(0);    opacity: 1; }
 }
+
+/* Roadmap.sh-style box: hard shadow that "lifts" on hover, "presses" on active */
+.roadmap-box {
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.roadmap-box:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 #1F2937 !important;
+}
+.roadmap-box:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #1F2937 !important;
+}
