@@ -8,9 +8,17 @@
   --border: #e4e4e7;
   --surface: #fafafa;
 
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  font-feature-settings: 'cv11', 'ss01';
   line-height: 1.5;
   color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code, pre, kbd {
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
 }
 
 * {
@@ -63,4 +71,25 @@ button.primary {
 .roadmap-box:active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 #1F2937 !important;
+}
+
+/* Alt chip lift effect — same brutalist style */
+.roadmap-chip {
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  cursor: help;
+}
+.roadmap-chip:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #1F2937 !important;
+}
+
+/* Spine subtle pulse to suggest "alive flow" */
+@keyframes spineFlow {
+  0%, 100% { stroke-dashoffset: 0; }
+  50% { stroke-dashoffset: 8; }
+}
+
+/* Section anchor IDs need scroll-margin for sticky-aware jump links */
+[data-section] {
+  scroll-margin-top: 80px;
 }

@@ -58,13 +58,17 @@ interface SectionTitle {
   y: number
 }
 
-const SECTIONS: SectionTitle[] = [
-  { text: 'Lập trình & ngôn ngữ', y: 110 },
-  { text: 'Frontend',             y: 320 },
-  { text: 'Backend',              y: 600 },
-  { text: 'Security',             y: 990 },
-  { text: 'Triển khai',           y: 1340 },
-  { text: 'Source Control',       y: 1760 },
+interface SectionTitleWithId extends SectionTitle {
+  id: string
+}
+
+const SECTIONS: SectionTitleWithId[] = [
+  { text: 'Lập trình & ngôn ngữ', y: 110,  id: 'sec-foundations' },
+  { text: 'Frontend',             y: 320,  id: 'sec-frontend' },
+  { text: 'Backend',              y: 600,  id: 'sec-backend' },
+  { text: 'Security',             y: 990,  id: 'sec-security' },
+  { text: 'Triển khai',           y: 1340, id: 'sec-infra' },
+  { text: 'Source Control',       y: 1760, id: 'sec-source-control' },
 ]
 
 interface Container {
@@ -90,7 +94,7 @@ const CONTAINERS: Container[] = [
 
   // Special wrapping containers (peach items inside, label internal)
   { x: 60,  y: 1190, w: 1080, h: 110, externalLabel: 'Web Security checklist' },     // 9 — wraps Authz/Env/HTTPS/CORS
-  { x: 180, y: 1640, w: 840,  h: 100, externalLabel: 'Tools triển khai (Claude tự lo phần lớn)' }, // 10 — wraps Docker/CI-CD
+  { x: 180, y: 1640, w: 840,  h: 100, externalLabel: 'Tools — Claude tự lo phần lớn' }, // 10 — wraps Docker/CI-CD
 ]
 
 interface ChipPlacement {
@@ -297,25 +301,44 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           </div>
         ))}
 
-        {SECTIONS.map((s) => (
+        {SECTIONS.map((s, idx) => (
           <div
             key={s.text}
+            id={s.id}
+            data-section
             style={{
               position: 'absolute',
               left: '50%',
               top: s.y,
               transform: 'translateX(-50%)',
-              fontSize: 22,
-              fontWeight: 700,
-              color: '#1F2937',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '4px 18px',
               background: 'var(--surface)',
-              padding: '0 16px',
-              letterSpacing: '-0.01em',
               zIndex: 3,
               whiteSpace: 'nowrap',
             }}
           >
-            {s.text}
+            <span
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: '50%',
+                background: '#1F2937',
+                color: 'white',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 12,
+                fontWeight: 700,
+              }}
+            >
+              {idx + 1}
+            </span>
+            <span style={{ fontSize: 24, fontWeight: 800, color: '#1F2937', letterSpacing: '-0.015em' }}>
+              {s.text}
+            </span>
           </div>
         ))}
 
@@ -339,6 +362,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
         {chips.map((chip, i) => (
           <div
             key={`chip-${i}`}
+            className="roadmap-chip"
             title={chip.alt.note ?? chip.alt.label}
             style={chipStyle(chip.x, chip.y)}
           >

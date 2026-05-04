@@ -220,11 +220,14 @@ export const diagramNodes: DiagramNode[] = [
       'Bảng `users` (id, email, password) + bảng `posts` (id, user_id, content). user_id ở `posts` link đến id ở `users` — đó là "relational". MongoDB lưu dạng document `{ _id, name, custom_fields... }` — schema tự do, nhưng query phức tạp khó.',
     loiThuongGap:
       'Bắt đầu với MongoDB vì "trendier", rồi đổi sang Postgres khi data có quan hệ phức tạp. Tốn công migrate data + rewrite query. Quy tắc: Postgres mặc định, đổi sau nếu có lý do cụ thể.',
-    code: `CREATE TABLE site_config (
+    code: `-- PostgreSQL schema (relational, dạng bảng)
+CREATE TABLE site_config (
     key TEXT PRIMARY KEY,
-    value TEXT NOT NULL,
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);`,
+    value TEXT NOT NULL
+);
+
+-- MongoDB schema (NoSQL, dạng JSON)
+{ _id: 1, key: "site_title", value: "Web App" }`,
     codeLang: 'sql',
     alternatives: [
       { label: 'PostgreSQL', iconSlug: 'postgresql', note: 'Mặc định cho dự án mới — relational, mạnh nhất' },
@@ -240,9 +243,9 @@ export const diagramNodes: DiagramNode[] = [
     whatIs:
       'Lưu file lớn (ảnh, video, PDF) ngoài database. DB không nên lưu file lớn — chậm, đắt. Object storage rẻ ($0.015/GB/tháng) và tối ưu cho file. Database lưu metadata (text, URL); object storage lưu file thật.',
     whereInProject:
-      'Project này chưa có. Khi thêm upload ảnh (avatar user, ảnh sản phẩm), cần Cloudflare R2 hoặc AWS S3.',
+      'Project này chưa cần (chỉ lưu config text). Khi thêm tính năng upload (avatar, ảnh sản phẩm, file PDF), wire R2/S3 vào backend qua SDK.',
     whenToCare:
-      'Mọi app cho user upload file. Đừng lưu base64 trong DB — DB to nhanh chóng, query chậm dần.',
+      'Mọi app có user upload file. Đừng lưu base64 trong DB — DB phình to, query chậm dần. Tách file ra object storage, DB chỉ giữ URL.',
     vidu:
       'User upload avatar → frontend gửi file đến backend → backend upload lên R2 → R2 trả URL → backend lưu URL trong DB (chỉ text, nhẹ). Khi hiển thị → frontend load ảnh từ URL R2 trực tiếp.',
     loiThuongGap:
@@ -407,7 +410,7 @@ export const diagramNodes: DiagramNode[] = [
     whatIs:
       'Domain = tên dễ nhớ (myapp.com). DNS = bảng tra "domain → IP server". Mua domain là đăng ký tên đó với cơ quan quản lý Internet trong 1-2 năm.',
     whereInProject:
-      'Hiện dùng URL Railway tự sinh (frontend-production-...up.railway.app). Buổi 2 anh sẽ demo trỏ Cloudflare DNS sang URL đó.',
+      'Hiện dùng URL Railway tự sinh (frontend-production-...up.railway.app). Trong buổi 2 sẽ demo trỏ Cloudflare DNS sang URL này.',
     whenToCare:
       'Khi muốn user truy cập qua tên đẹp thay vì URL Railway. Cần mua domain (~$10-15/năm) + config DNS.',
     vidu:
@@ -454,7 +457,7 @@ git log         # xem lịch sử`,
     whenToCare:
       'Build với Claude Code mà không push lên GitHub = code chỉ sống trên 1 máy. Máy hỏng = mất hết. Push lên GitHub = backup miễn phí + share được với team.',
     vidu:
-      'Anh push commit "thêm trang admin" lên GitHub → Railway tự nhận signal → build + deploy → 3 phút sau site có trang admin mới. Không cần thao tác gì khác.',
+      'Mình push commit "thêm trang admin" lên GitHub → Railway tự nhận signal → build + deploy → 3 phút sau site có trang admin mới. Không cần thao tác gì khác.',
     loiThuongGap:
       'Commit `.env` (chứa password, API key) lên GitHub. Code public → ai cũng dùng được API mình → mất tiền/dữ liệu. Quy tắc: thêm `.env` vào `.gitignore` ngay từ đầu.',
     alternatives: [

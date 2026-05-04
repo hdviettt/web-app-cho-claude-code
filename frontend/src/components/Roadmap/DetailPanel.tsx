@@ -74,15 +74,6 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
 
       <div style={{ padding: '1.5rem' }}>
         <Section title="Đây là gì?">{node.whatIs}</Section>
-        <Section title="Trong project này nằm ở đâu?">{node.whereInProject}</Section>
-        <Section title="Khi nào học viên cần care?">{node.whenToCare}</Section>
-        {node.vidu && <Section title="Ví dụ thực tế" accent={cluster.accent}>{node.vidu}</Section>}
-        {node.loiThuongGap && (
-          <Section title="Lỗi thường gặp" accent="#dc2626">{node.loiThuongGap}</Section>
-        )}
-        {node.code && (
-          <CodeSection code={node.code} lang={node.codeLang ?? 'bash'} accent={cluster.accent} />
-        )}
         {node.alternatives && node.alternatives.length > 0 && (
           <section style={{ marginBottom: '1.5rem' }}>
             <h3
@@ -130,6 +121,15 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
               ))}
             </ul>
           </section>
+        )}
+        <Section title="Nằm ở đâu trong repo?">{node.whereInProject}</Section>
+        <Section title="Khi nào care?">{node.whenToCare}</Section>
+        {node.vidu && <Section title="Ví dụ thực tế" accent={cluster.accent}>{node.vidu}</Section>}
+        {node.loiThuongGap && (
+          <Section title="Lỗi thường gặp" accent="#dc2626">{node.loiThuongGap}</Section>
+        )}
+        {node.code && (
+          <CodeSection code={node.code} lang={node.codeLang ?? 'bash'} accent={cluster.accent} />
         )}
         {node.readMore && (
           <Section title="Đọc thêm">
