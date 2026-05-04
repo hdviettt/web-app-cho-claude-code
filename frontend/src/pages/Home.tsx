@@ -274,7 +274,7 @@ export default function Home() {
               paddingTop: '1.5rem',
             }}
           >
-            MIT License · Build với Claude Code · Hà Đức Việt — agentic@seongon.com
+            MIT License · Build với Claude Code · Hoàng Đức Việt — agentic@seongon.com
           </div>
         </div>
       </footer>
