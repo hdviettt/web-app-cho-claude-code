@@ -15,7 +15,6 @@ export type ClusterId =
   | 'backend'
   | 'security'
   | 'infra'
-  | 'ops'
   | 'source-control'
 
 export interface Cluster {
@@ -55,12 +54,6 @@ export const clusters: Cluster[] = [
     title: 'Triển khai',
     subtitle: 'Đẩy code lên server cho cả thế giới truy cập',
     accent: '#10b981',
-  },
-  {
-    id: 'ops',
-    title: 'Vận hành',
-    subtitle: 'Theo dõi sản phẩm sau khi đã live',
-    accent: '#0891b2',
   },
   {
     id: 'source-control',
@@ -429,85 +422,7 @@ export const diagramNodes: DiagramNode[] = [
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // 6. VẬN HÀNH
-  // ═══════════════════════════════════════════════════════════════
-  {
-    id: 'ops-logs',
-    cluster: 'ops',
-    label: 'Logs',
-    whatIs:
-      'Lịch sử mọi thứ xảy ra trên server: request đến, response, error. Khi có bug → đọc log để biết "lúc đó server làm gì". Không có log = mò trong bóng tối.',
-    whereInProject:
-      'Railway dashboard có tab "Logs" cho mỗi service. Live tail. FastAPI in log mỗi request ra stdout → Railway capture.',
-    whenToCare:
-      'Mỗi production app cần log. Khi user báo "site lỗi" → mở log xem timestamp đó có gì → debug.',
-    vidu:
-      'User báo "tôi click save mà không lưu được". Mở log Railway, filter theo timestamp → thấy `ERROR: connection to database refused`. Biết ngay: DB rớt.',
-    loiThuongGap:
-      'Log mọi thứ kể cả password (`logger.info(f"login attempt: {password}")`). Password leak vào log. Quy tắc: không log data nhạy cảm, dùng log level (debug/info/error) phân loại.',
-  },
-  {
-    id: 'ops-monitoring',
-    cluster: 'ops',
-    label: 'Monitoring',
-    whatIs:
-      'Tự động phát hiện + báo khi có bug, crash, performance kém. Không phải đợi user complain — system tự alert qua email/Slack ngay khi có lỗi.',
-    whereInProject:
-      'Project chưa có. Cho production thật, nên thêm Sentry (free tier 5k errors/tháng) — log mọi exception, gửi alert.',
-    whenToCare:
-      'Mọi production app có user thật. Càng sớm càng tốt — chậm 1 giờ phát hiện bug = 1000 user gặp lỗi.',
-    vidu:
-      'Sentry: backend throw exception → Sentry capture stack trace + context → alert Slack/email trong 30 giây. Mình biết bug trước user complain.',
-    loiThuongGap:
-      'Set up monitoring nhưng không config alert → bug log vô tận, không ai đọc. Quy tắc: alert đến channel có người trực, snooze duplicate.',
-    alternatives: [
-      { label: 'Sentry', iconSlug: 'sentry', note: 'Phổ biến nhất, free tier ổn' },
-      { label: 'Datadog', iconSlug: 'datadog', note: 'Enterprise, đắt nhưng full features' },
-    ],
-  },
-  {
-    id: 'ops-analytics',
-    cluster: 'ops',
-    label: 'Analytics',
-    whatIs:
-      'Đo "user làm gì trên site". Bao nhiêu user/ngày, page nào nhiều view nhất, conversion rate ở bước nào, etc. Khác với monitoring — analytics đo hành vi, monitoring đo health.',
-    whereInProject:
-      'Project chưa có. Thêm Plausible (privacy-friendly) hoặc Google Analytics (free, mạnh hơn nhưng phức tạp).',
-    whenToCare:
-      'Khi có user thật. Marketer đặc biệt quan tâm: conversion, retention, funnel. Không có analytics = không biết product có work không.',
-    vidu:
-      'Plausible: thấy "70% user vào landing → 30% click CTA → 5% đăng ký". Drop ở bước 2 → cần A/B test CTA mới.',
-    loiThuongGap:
-      'Cài GA4 mà không set up event/conversion. Chỉ thấy pageview, không thấy hành vi quan trọng. Quy tắc: define event chính (signup, purchase) ngay khi cài.',
-    alternatives: [
-      { label: 'Plausible', iconSlug: 'plausibleanalytics', note: 'Privacy-friendly, đơn giản' },
-      { label: 'GA4', iconSlug: 'googleanalytics', note: 'Free, mạnh, phức tạp' },
-      { label: 'Umami', iconSlug: 'umami', note: 'Open source, tự host' },
-    ],
-  },
-  {
-    id: 'ops-email',
-    cluster: 'ops',
-    label: 'Email',
-    whatIs:
-      'Gửi email từ app: confirmation đăng ký, reset password, newsletter. Cần dịch vụ chuyên (SendGrid, Resend) — không tự host SMTP server (sẽ vào spam folder).',
-    whereInProject:
-      'Project hiện chưa gửi email. Khi thêm signup flow, cần Resend hoặc SendGrid để gửi email "welcome" / "verify".',
-    whenToCare:
-      'Mọi web app có user authentication thường cần. Verify email, reset password, alert. Marketing email là nhánh khác (Mailchimp, ConvertKit).',
-    vidu:
-      'Resend: API call `resend.emails.send({ to, subject, html })` → email đến hộp thư user trong 5 giây. Dashboard tracking open/click rate.',
-    loiThuongGap:
-      'Tự host SMTP. Email từ IP cá nhân/server lạ → Gmail/Outlook đánh spam ngay. Quy tắc: dùng dịch vụ chuyên, có warmed-up IP.',
-    alternatives: [
-      { label: 'Resend', iconSlug: 'resend', note: 'Modern, dev-friendly' },
-      { label: 'SendGrid', note: 'Lâu đời, scale lớn' },
-      { label: 'Nodemailer', note: 'Library Node để gửi qua SMTP' },
-    ],
-  },
-
-  // ═══════════════════════════════════════════════════════════════
-  // 7. SOURCE CONTROL (cuối)
+  // 6. SOURCE CONTROL (cuối)
   // ═══════════════════════════════════════════════════════════════
   {
     id: 'git',

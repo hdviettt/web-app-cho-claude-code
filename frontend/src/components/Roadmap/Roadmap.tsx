@@ -7,7 +7,7 @@ interface RoadmapProps {
 }
 
 const CANVAS_W = 1200
-const CANVAS_H = 2700
+const CANVAS_H = 2300
 const SPINE_X = 600
 
 type BoxColor = 'yellow' | 'peach' | 'purple'
@@ -48,15 +48,9 @@ const layout: Record<string, NodeLayout> = {
   'infra-cicd':    { x: 490, y: 1880, w: 220, h: 56, color: 'yellow' },
   'infra-domain':  { x: 490, y: 1980, w: 220, h: 56, color: 'yellow' },
 
-  // ═══ S6: Vận hành ═══
-  'ops-logs':       { x: 490, y: 2180, w: 220, h: 56, color: 'yellow' },
-  'ops-monitoring': { x: 490, y: 2280, w: 220, h: 56, color: 'yellow' },
-  'ops-analytics':  { x: 490, y: 2380, w: 220, h: 56, color: 'yellow' },
-  'ops-email':      { x: 490, y: 2480, w: 220, h: 56, color: 'yellow' },
-
-  // ═══ S7: Source Control ═══
-  git:    { x: 490, y: 2590, w: 220, h: 56, color: 'yellow' },
-  github: { x: 490, y: 2690, w: 220, h: 56, color: 'yellow' },
+  // ═══ S6: Source Control (cuối) ═══
+  git:    { x: 490, y: 2160, w: 220, h: 56, color: 'yellow' },
+  github: { x: 490, y: 2260, w: 220, h: 56, color: 'yellow' },
 }
 
 interface SectionTitle {
@@ -70,8 +64,7 @@ const SECTIONS: SectionTitle[] = [
   { text: 'Backend',              y: 600 },
   { text: 'Security',             y: 990 },
   { text: 'Triển khai',           y: 1590 },
-  { text: 'Vận hành',             y: 2090 },
-  { text: 'Source Control',       y: 2500 },
+  { text: 'Source Control',       y: 2070 },
 ]
 
 interface Container {
@@ -83,7 +76,6 @@ interface Container {
   side: 'left' | 'right'
 }
 
-// Containers: alt cluster cho mỗi primary có alternatives
 const CONTAINERS: Container[] = [
   { x: 60,  y: 180, w: 380, h: 130, externalLabel: 'Lựa chọn ngôn ngữ',     side: 'left' },     // language
   { x: 760, y: 390, w: 380, h: 130, externalLabel: 'Framework lựa chọn',    side: 'right' },    // fe-framework
@@ -94,10 +86,7 @@ const CONTAINERS: Container[] = [
   { x: 760, y: 1760, w: 380, h: 130, externalLabel: 'Hosting platform',     side: 'right' },    // infra-hosting
   { x: 60,  y: 1860, w: 380, h: 100, externalLabel: 'CI/CD',                side: 'left' },     // infra-cicd
   { x: 760, y: 1960, w: 380, h: 100, externalLabel: 'Domain provider',      side: 'right' },    // infra-domain
-  { x: 60,  y: 2260, w: 380, h: 100, externalLabel: 'Monitoring',           side: 'left' },     // ops-monitoring
-  { x: 760, y: 2360, w: 380, h: 130, externalLabel: 'Analytics',            side: 'right' },    // ops-analytics
-  { x: 60,  y: 2460, w: 380, h: 100, externalLabel: 'Email',                side: 'left' },     // ops-email
-  { x: 760, y: 2670, w: 380, h: 100, externalLabel: 'Repo hosting',         side: 'right' },    // github
+  { x: 760, y: 2240, w: 380, h: 100, externalLabel: 'Repo hosting',         side: 'right' },    // github
 ]
 
 interface ChipPlacement {
@@ -107,19 +96,16 @@ interface ChipPlacement {
 }
 
 const CHIP_PLACEMENTS: ChipPlacement[] = [
-  { parentId: 'language',       containerIdx: 0,  cols: 2 },
-  { parentId: 'fe-framework',   containerIdx: 1,  cols: 2 },
-  { parentId: 'be-api',         containerIdx: 2,  cols: 2 },
-  { parentId: 'be-database',    containerIdx: 3,  cols: 2 },
-  { parentId: 'be-storage',     containerIdx: 4,  cols: 1 },
-  { parentId: 'sec-auth',       containerIdx: 5,  cols: 2 },
-  { parentId: 'infra-hosting',  containerIdx: 6,  cols: 2 },
-  { parentId: 'infra-cicd',     containerIdx: 7,  cols: 2 },
-  { parentId: 'infra-domain',   containerIdx: 8,  cols: 2 },
-  { parentId: 'ops-monitoring', containerIdx: 9,  cols: 2 },
-  { parentId: 'ops-analytics',  containerIdx: 10, cols: 2 },
-  { parentId: 'ops-email',      containerIdx: 11, cols: 2 },
-  { parentId: 'github',         containerIdx: 12, cols: 2 },
+  { parentId: 'language',       containerIdx: 0, cols: 2 },
+  { parentId: 'fe-framework',   containerIdx: 1, cols: 2 },
+  { parentId: 'be-api',         containerIdx: 2, cols: 2 },
+  { parentId: 'be-database',    containerIdx: 3, cols: 2 },
+  { parentId: 'be-storage',     containerIdx: 4, cols: 1 },
+  { parentId: 'sec-auth',       containerIdx: 5, cols: 2 },
+  { parentId: 'infra-hosting',  containerIdx: 6, cols: 2 },
+  { parentId: 'infra-cicd',     containerIdx: 7, cols: 2 },
+  { parentId: 'infra-domain',   containerIdx: 8, cols: 2 },
+  { parentId: 'github',         containerIdx: 9, cols: 2 },
 ]
 
 interface Edge {
@@ -129,29 +115,19 @@ interface Edge {
 }
 
 const EDGES: Edge[] = [
-  // S1
   { from: 'language', to: 'container:0', style: 'dotted' },
-  // S2
   { from: 'fe-framework', to: 'container:1', style: 'dotted' },
   { from: 'fe-framework', to: 'fe-html',       style: 'solid' },
   { from: 'fe-framework', to: 'fe-css',        style: 'solid' },
   { from: 'fe-framework', to: 'fe-javascript', style: 'solid' },
-  // S3
   { from: 'be-api',      to: 'container:2', style: 'dotted' },
   { from: 'be-database', to: 'container:3', style: 'dotted' },
   { from: 'be-storage',  to: 'container:4', style: 'dotted' },
-  // S4
   { from: 'sec-auth', to: 'container:5', style: 'dotted' },
-  // S5
   { from: 'infra-hosting', to: 'container:6', style: 'dotted' },
   { from: 'infra-cicd',    to: 'container:7', style: 'dotted' },
   { from: 'infra-domain',  to: 'container:8', style: 'dotted' },
-  // S6
-  { from: 'ops-monitoring', to: 'container:9',  style: 'dotted' },
-  { from: 'ops-analytics',  to: 'container:10', style: 'dotted' },
-  { from: 'ops-email',      to: 'container:11', style: 'dotted' },
-  // S7
-  { from: 'github', to: 'container:12', style: 'dotted' },
+  { from: 'github', to: 'container:9', style: 'dotted' },
 ]
 
 // ─── Helpers ───────────────────────────────────────────────────────
@@ -194,8 +170,6 @@ function bezier(fx: number, fy: number, tx: number, ty: number): string {
   return `M ${fx} ${fy} C ${fx} ${cp}, ${tx} ${cp}, ${tx} ${ty}`
 }
 
-// ─── Chip placement ────────────────────────────────────────────────
-
 const CHIP_W = 130
 const CHIP_H = 28
 const CHIP_GAP_X = 12
@@ -231,8 +205,6 @@ function computeChips(): ChipPos[] {
   return result
 }
 
-// ─── Component ─────────────────────────────────────────────────────
-
 export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
   const chips = computeChips()
 
@@ -259,7 +231,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           height={CANVAS_H}
           style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
         >
-          {/* Spine */}
           <path
             d={`M ${SPINE_X} 60 L ${SPINE_X} ${CANVAS_H - 30}`}
             stroke="#3B82F6"
@@ -268,7 +239,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
             strokeLinecap="round"
           />
 
-          {/* Plain white containers */}
           {CONTAINERS.map((c, i) => (
             <rect
               key={`c-${i}`}
@@ -283,7 +253,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
             />
           ))}
 
-          {/* Edges */}
           {EDGES.map((edge, i) => {
             const from = getEndpoint(edge.from)
             const to = getEndpoint(edge.to)
@@ -303,7 +272,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           })}
         </svg>
 
-        {/* Container external labels */}
         {CONTAINERS.map((c, i) => (
           <div
             key={`cl-${i}`}
@@ -325,7 +293,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           </div>
         ))}
 
-        {/* Floating section titles on spine */}
         {SECTIONS.map((s) => (
           <div
             key={s.text}
@@ -348,7 +315,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           </div>
         ))}
 
-        {/* Primary nodes */}
         {diagramNodes.map((node) => {
           const l = layout[node.id]
           if (!l) return null
@@ -366,7 +332,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           )
         })}
 
-        {/* Alt chips */}
         {chips.map((chip, i) => (
           <div
             key={`chip-${i}`}
