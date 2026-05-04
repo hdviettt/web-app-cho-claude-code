@@ -1,12 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Roadmap } from '../components/Roadmap/Roadmap'
 import { DetailPanel } from '../components/Roadmap/DetailPanel'
 import { Wayfinding } from '../components/Wayfinding'
 import { diagramNodes } from '../data/diagram'
 import { getConfig } from '../lib/api'
 
+// Canvas natural dimensions (must keep in sync với Roadmap.tsx CANVAS_W/CANVAS_H + padding)
+const ROADMAP_W = 1200
+
 export default function Home() {
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
+  const [innerHeight, setInnerHeight] = useState(2200)
 
   useEffect(() => {
     getConfig()
@@ -26,6 +33,29 @@ export default function Home() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [selectedNodeId])
+
+  // Auto-scale canvas để fit container width — react cả khi viewport resize
+  // và khi panel mở/đóng (flex column thay đổi width).
+  useEffect(() => {
+    function updateScale() {
+      if (!wrapperRef.current) return
+      const w = wrapperRef.current.offsetWidth
+      setScale(Math.min(1, w / ROADMAP_W))
+    }
+    function updateHeight() {
+      if (innerRef.current) setInnerHeight(innerRef.current.offsetHeight)
+    }
+    updateScale()
+    updateHeight()
+    const wo = new ResizeObserver(updateScale)
+    if (wrapperRef.current) wo.observe(wrapperRef.current)
+    const io = new ResizeObserver(updateHeight)
+    if (innerRef.current) io.observe(innerRef.current)
+    return () => {
+      wo.disconnect()
+      io.disconnect()
+    }
+  }, [])
 
   const selectedNode = selectedNodeId
     ? diagramNodes.find((n) => n.id === selectedNodeId)
@@ -130,16 +160,26 @@ export default function Home() {
 
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
         <div
+          ref={wrapperRef}
           style={{
             flex: 1,
             minWidth: 0,
             overflow: 'hidden',
-            // CSS zoom co cả layout (Chromium support tốt) — canvas thực sự
-            // shrink khi panel mở, không phải clip + horizontal scroll.
-            zoom: panelOpen ? 0.7 : 1,
-          } as React.CSSProperties}
+            height: innerHeight * scale,
+            transition: 'height 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
         >
-          <Roadmap selectedNodeId={selectedNodeId} onNodeClick={setSelectedNodeId} />
+          <div
+            ref={innerRef}
+            style={{
+              width: ROADMAP_W,
+              transform: `scale(${scale})`,
+              transformOrigin: 'top left',
+              transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
+          >
+            <Roadmap selectedNodeId={selectedNodeId} onNodeClick={setSelectedNodeId} />
+          </div>
         </div>
         {selectedNode && (
           <div
