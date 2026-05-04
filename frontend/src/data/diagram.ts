@@ -1,7 +1,7 @@
 /**
  * Toàn bộ data cho roadmap "Web App với Claude Code".
  *
- * 8 section, ~36 primary node, ~50 alternative chip.
+ * 7 sections × 23 primary nodes (đã gọt theo spec Viet ngày 2026-05-04).
  *
  * Đối tượng đọc: marketer non-tech đang học build web app với Claude Code.
  * Voice: dùng analogies (cửa hàng, kho, sổ cái, két sắt) thay vì jargon.
@@ -11,13 +11,12 @@
 
 export type ClusterId =
   | 'foundations'
-  | 'source-control'
   | 'frontend'
   | 'backend'
-  | 'database'
   | 'security'
   | 'infra'
   | 'ops'
+  | 'source-control'
 
 export interface Cluster {
   id: ClusterId
@@ -29,15 +28,9 @@ export interface Cluster {
 export const clusters: Cluster[] = [
   {
     id: 'foundations',
-    title: 'Khái niệm cơ bản',
-    subtitle: 'Vài thuật ngữ tối thiểu để đọc hiểu được code Claude tạo ra',
+    title: 'Lập trình & ngôn ngữ',
+    subtitle: 'Khái niệm tối thiểu để đọc hiểu code Claude tạo ra',
     accent: '#0ea5e9',
-  },
-  {
-    id: 'source-control',
-    title: 'Source Control',
-    subtitle: 'Nơi lưu code và chia sẻ với team',
-    accent: '#6366f1',
   },
   {
     id: 'frontend',
@@ -48,14 +41,8 @@ export const clusters: Cluster[] = [
   {
     id: 'backend',
     title: 'Backend',
-    subtitle: 'Kho hậu cần — xử lý logic phía sau',
+    subtitle: 'Kho hậu cần — xử lý logic + lưu data phía sau',
     accent: '#ec4899',
-  },
-  {
-    id: 'database',
-    title: 'Database',
-    subtitle: 'Sổ cái — nơi data sống lâu dài',
-    accent: '#f59e0b',
   },
   {
     id: 'security',
@@ -74,6 +61,12 @@ export const clusters: Cluster[] = [
     title: 'Vận hành',
     subtitle: 'Theo dõi sản phẩm sau khi đã live',
     accent: '#0891b2',
+  },
+  {
+    id: 'source-control',
+    title: 'Source Control',
+    subtitle: 'Nơi lưu code và chia sẻ với team',
+    accent: '#6366f1',
   },
 ]
 
@@ -102,14 +95,14 @@ export interface DiagramNode {
 
 export const diagramNodes: DiagramNode[] = [
   // ═══════════════════════════════════════════════════════════════
-  // 1. KHÁI NIỆM CƠ BẢN
+  // 1. LẬP TRÌNH & NGÔN NGỮ
   // ═══════════════════════════════════════════════════════════════
   {
     id: 'language',
     cluster: 'foundations',
     label: 'Ngôn ngữ lập trình',
     whatIs:
-      'Cách mình ra lệnh cho máy tính. Mỗi ngôn ngữ là một bộ "ngữ pháp" riêng — như tiếng Việt vs tiếng Anh vs tiếng Nhật. Chọn ngôn ngữ là chọn phong cách viết, không phải chọn cái máy "hiểu" hay "không hiểu".',
+      'Cách mình ra lệnh cho máy tính. Mỗi ngôn ngữ là một bộ "ngữ pháp" riêng — như tiếng Việt vs tiếng Anh. Chọn ngôn ngữ là chọn phong cách viết, không phải chọn cái máy "hiểu" hay "không hiểu".',
     whereInProject:
       'Project này dùng 2 ngôn ngữ. Backend (kho hậu cần) viết bằng Python — xem `backend/app/`. Frontend (mặt tiền) viết bằng TypeScript — xem `frontend/src/`.',
     whenToCare:
@@ -125,139 +118,9 @@ export const diagramNodes: DiagramNode[] = [
       { label: 'Go', iconSlug: 'go', note: 'Backend nhanh, server nặng' },
     ],
   },
-  {
-    id: 'function',
-    cluster: 'foundations',
-    label: 'Hàm',
-    whatIs:
-      'Một khối code làm 1 việc cụ thể, có tên. Gọi tên → chạy. Như công thức nấu ăn: tên món + nguyên liệu vào → món ra.',
-    whereInProject:
-      'Mở `backend/app/routes/config.py`. `get_config(db)` là một hàm. Tên `get_config` cho biết nó "lấy config". Tham số `db` là "thứ nó cần để chạy".',
-    whenToCare:
-      'Khi nói với Claude "thêm tính năng X", thường Claude tạo một hàm mới. Đặt tên hàm rõ ràng (động từ + danh từ) thì sau này đọc lại sẽ hiểu ngay.',
-    vidu:
-      '`tinh_tien(so_luong, don_gia)` — đọc tên là biết nó tính tiền dựa trên số lượng và đơn giá. Không cần đọc code bên trong.',
-    loiThuongGap:
-      'Đặt tên kiểu `process()`, `helper()`, `do_thing()`. 6 tháng sau quay lại không hiểu hàm làm gì. Quy tắc: tên = động từ + danh từ cụ thể.',
-    code: `def tinh_tien(so_luong: int, don_gia: float) -> float:
-    return so_luong * don_gia
-
-print(tinh_tien(3, 50000))  # 150000`,
-    codeLang: 'python',
-  },
-  {
-    id: 'variable',
-    cluster: 'foundations',
-    label: 'Biến',
-    whatIs:
-      'Một cái tên gắn với một giá trị. Như nhãn dán trên hộp: hộp gọi là "thuế_VAT", giá trị bên trong là 0.1 (10%). Chỗ nào cần dùng giá trị thuế thì gõ `thue_VAT`, không gõ `0.1`.',
-    whereInProject:
-      'Mở `backend/app/db.py` — `DATABASE_URL` là biến đọc từ file `.env`. Mở `frontend/src/data/diagram.ts` — `clusters` và `diagramNodes` là biến chứa data của roadmap này.',
-    whenToCare:
-      'Khi đổi cấu hình (đổi password, đổi địa chỉ database, đổi giá), thường mình chỉ đổi giá trị của biến — không sửa logic.',
-    vidu:
-      '`thue_VAT = 0.1` lưu thuế 10%. Khi luật đổi thành 8%, đổi 1 chỗ: `thue_VAT = 0.08`. Toàn bộ logic dùng `thue_VAT` tự cập nhật. Không hardcode số 0.1 ở 50 chỗ.',
-    loiThuongGap:
-      'Hardcode số/text ở khắp nơi. Khi cần đổi → sửa 50 chỗ, sót 1 chỗ là bug. Quy tắc: giá trị xuất hiện 2+ lần → đặt làm biến.',
-    code: `const thue_VAT = 0.1
-const tien_truoc_thue = 100000
-const tong = tien_truoc_thue * (1 + thue_VAT)`,
-    codeLang: 'typescript',
-  },
-  {
-    id: 'library',
-    cluster: 'foundations',
-    label: 'Thư viện',
-    whatIs:
-      'Code do người khác viết sẵn, đóng gói, mình import vào dùng. Như mua sốt cà chua đóng chai thay vì tự nấu — đỡ thời gian, ổn định hơn.',
-    whereInProject:
-      '`backend/requirements.txt` liệt kê thư viện Python (FastAPI, SQLAlchemy...). `frontend/package.json` liệt kê thư viện JS/TS (React, React Router...). Mỗi dòng = 1 thư viện.',
-    whenToCare:
-      'Khi Claude đề xuất "cần cài thư viện X", thường nên đồng ý. Tránh khi: thư viện quá lạ (ít người dùng), lâu không có update, hoặc mục tiêu là tự học.',
-    vidu:
-      'Project này không tự viết HTTP server từ đầu — dùng FastAPI. Không tự viết logic database — dùng SQLAlchemy. Không tự render UI — dùng React. Phần "nặng" do thư viện làm.',
-    loiThuongGap:
-      'Cài quá nhiều thư viện không cần thiết. Project to ra, build chậm, dễ bug, dễ bị "supply chain attack". Quy tắc: chỉ cài khi thật sự cần.',
-    alternatives: [
-      { label: 'npm', iconSlug: 'npm', note: 'Package manager cho JS/TS' },
-      { label: 'pip', iconSlug: 'pypi', note: 'Package manager cho Python' },
-    ],
-  },
 
   // ═══════════════════════════════════════════════════════════════
-  // 2. SOURCE CONTROL
-  // ═══════════════════════════════════════════════════════════════
-  {
-    id: 'git',
-    cluster: 'source-control',
-    label: 'Git',
-    whatIs:
-      'Tool ghi lại lịch sử thay đổi code. Như Track Changes trong Word, nhưng cho cả thư mục code, mạnh hơn nhiều. Mỗi lần lưu → 1 "snapshot" gọi là commit. Có thể quay về snapshot cũ bất cứ lúc nào.',
-    whereInProject:
-      'Folder `.git/` (ẩn) trong root của project lưu toàn bộ lịch sử. Không bao giờ động vào folder này thủ công — Git tự quản.',
-    whenToCare:
-      'Mỗi lần làm xong 1 chunk công việc → tạo 1 commit. Git là phao cứu sinh: lỡ làm hỏng thì rollback về commit gần nhất.',
-    vidu:
-      'Đang chỉnh giao diện admin, không ưng → `git checkout .` để rollback về commit gần nhất, mất 1 giây. Không có Git thì phải sửa thủ công ngược lại từng dòng.',
-    loiThuongGap:
-      'Commit cả tuần một lần với 50 file thay đổi. Khi cần rollback một chuyện cụ thể thì không tách ra được. Quy tắc: 1 commit = 1 thay đổi rõ ràng.',
-    code: `git add .
-git commit -m "thêm trang admin"
-git log         # xem lịch sử`,
-    codeLang: 'bash',
-  },
-  {
-    id: 'github',
-    cluster: 'source-control',
-    label: 'GitHub',
-    whatIs:
-      'Dịch vụ lưu code online, dùng Git. Như Google Drive cho code, nhưng tích hợp sẵn tools cho team work: review code, theo dõi bug, deploy tự động.',
-    whereInProject:
-      'Repo này: github.com/hdviettt/web-app-cho-claude-code (public, ai cũng đọc được). Code mình push lên đây, Railway tự pull về để deploy.',
-    whenToCare:
-      'Build với Claude Code mà không push lên GitHub = code chỉ sống trên 1 máy. Máy hỏng = mất hết. Push lên GitHub = backup miễn phí + share được với team.',
-    vidu:
-      'Anh push commit "thêm trang admin" lên GitHub → Railway tự nhận signal → build + deploy → 3 phút sau site có trang admin mới. Không cần thao tác gì khác.',
-    loiThuongGap:
-      'Commit `.env` (chứa password, API key) lên GitHub. Code public → ai cũng dùng được API mình → mất tiền/dữ liệu. Quy tắc: thêm `.env` vào `.gitignore` ngay từ đầu.',
-    alternatives: [
-      { label: 'GitLab', iconSlug: 'gitlab', note: 'Tự host được, dùng cho team enterprise' },
-      { label: 'Bitbucket', iconSlug: 'bitbucket', note: 'Tích hợp với Atlassian (Jira)' },
-    ],
-  },
-  {
-    id: 'branch',
-    cluster: 'source-control',
-    label: 'Branch & Commit',
-    whatIs:
-      'Branch = nhánh code song song. Như Google Doc có nhiều version draft. `main` là branch chính (production). `feature/x` là nhánh thử nghiệm. Code trên feature branch không ảnh hưởng main.',
-    whereInProject:
-      'Project này hiện chỉ có branch `main`. Khi team to lên, mỗi tính năng mới làm trên branch riêng, xong mới merge vào main.',
-    whenToCare:
-      'Solo developer: thường chỉ cần `main`. Team từ 2 người: dùng feature branch để không đè lên nhau khi cùng sửa code.',
-    vidu:
-      'Anh và đồng nghiệp cùng sửa frontend. Anh làm trên `feature/dark-mode`, đồng nghiệp làm trên `feature/admin-panel`. Cả 2 không đụng nhau. Xong việc, mỗi người mở Pull Request để merge vào main.',
-    loiThuongGap:
-      'Commit thẳng lên `main` mà không test. Bug đẩy thẳng production = user thấy ngay. Quy tắc: dùng feature branch + Pull Request cho mọi thay đổi quan trọng.',
-  },
-  {
-    id: 'pull-request',
-    cluster: 'source-control',
-    label: 'Pull Request',
-    whatIs:
-      'Yêu cầu merge code từ feature branch vào main. Đi kèm review từ team — đồng nghiệp đọc code mình, comment "chỗ này nên sửa", approve thì mới merge.',
-    whereInProject:
-      'Chưa có PR nào trong repo này (Viet làm 1 mình). Khi mở repo cho team, mọi thay đổi sẽ qua PR.',
-    whenToCare:
-      'Team từ 2 người trở lên. PR là chỗ cản bug + share kiến thức. Người mới vào team đọc PR cũ là cách nhanh nhất hiểu codebase.',
-    vidu:
-      'Mở PR "thêm dark mode" → đồng nghiệp comment "anh quên handle nút toggle" → fix → push commit mới → PR auto-update → approve → merge. Không có PR = bug lọt vào main.',
-    loiThuongGap:
-      'PR quá to (50+ files). Reviewer mệt, review sơ → bug lọt. Quy tắc: PR nhỏ, mỗi PR 1 mục đích rõ ràng. Tách thành nhiều PR nhỏ thay vì 1 PR khổng lồ.',
-  },
-
-  // ═══════════════════════════════════════════════════════════════
-  // 3. FRONTEND
+  // 2. FRONTEND
   // ═══════════════════════════════════════════════════════════════
   {
     id: 'fe-framework',
@@ -270,7 +133,7 @@ git log         # xem lịch sử`,
     whenToCare:
       'Khi build site nhỏ-vừa, framework giúp Claude Code làm việc nhanh hơn vì có pattern chuẩn. Khi build landing page tĩnh, có thể skip framework.',
     vidu:
-      'Component `<DetailPanel>` trong project này hiện thông tin của 1 node. Cùng cấu trúc, hiển thị 36 lần với 36 data khác nhau. Nếu không có React, phải copy-paste 36 lần.',
+      'Component `<DetailPanel>` trong project này hiện thông tin của 1 node. Cùng cấu trúc, hiển thị 23 lần với 23 data khác nhau. Nếu không có React, phải copy-paste 23 lần.',
     loiThuongGap:
       'Chọn framework "hot trend" mà ít user (như framework mới ra 6 tháng). Cộng đồng nhỏ = ít tài liệu = Claude Code không quen. Quy tắc: chọn framework có 5+ năm và cộng đồng lớn.',
     alternatives: [
@@ -278,45 +141,6 @@ git log         # xem lịch sử`,
       { label: 'Vue', iconSlug: 'vuedotjs', note: 'Học nhanh hơn React, ít abstract' },
       { label: 'Svelte', iconSlug: 'svelte', note: 'Mới hơn, code ngắn gọn' },
       { label: 'Next.js', iconSlug: 'nextdotjs', note: 'React + tính năng full-stack' },
-    ],
-  },
-  {
-    id: 'fe-build',
-    cluster: 'frontend',
-    label: 'Build tool',
-    whatIs:
-      'Tool đóng gói code TypeScript/React thành file HTML/CSS/JS mà trình duyệt hiểu. Trình duyệt không hiểu trực tiếp TypeScript — phải "compile" trước. Build tool làm việc đó tự động.',
-    whereInProject:
-      'Project dùng Vite. Lệnh `npm run dev` chạy Vite trong dev mode (auto reload khi sửa code). `npm run build` build ra file production trong `frontend/dist/`.',
-    whenToCare:
-      'Khi build dự án mới, Claude Code thường tự chọn Vite (mặc định, nhanh nhất). Hiếm khi cần tự chọn build tool.',
-    vidu:
-      'Sửa file `Roadmap.tsx`, save. Vite tự build lại + reload trang trong 100ms — thấy thay đổi ngay. Production build: `npm run build` ra 1 file JS gzipped 83KB cho cả 36 component.',
-    loiThuongGap:
-      'Dùng Webpack cho dự án nhỏ. Webpack rất mạnh nhưng cấu hình phức tạp. Quy tắc: Vite cho mọi dự án mới, Webpack chỉ khi đã có lý do cụ thể.',
-    alternatives: [
-      { label: 'Vite', iconSlug: 'vite', note: 'Mặc định cho dự án mới — nhanh' },
-      { label: 'Webpack', iconSlug: 'webpack', note: 'Cũ, nhiều cấu hình, dự án enterprise' },
-    ],
-  },
-  {
-    id: 'fe-styling',
-    cluster: 'frontend',
-    label: 'Styling',
-    whatIs:
-      'Cách tô màu, sắp xếp layout, làm đẹp UI. Frontend = nội dung; Styling = trang điểm cho nội dung. Mỗi tool styling có "phong cách viết" riêng.',
-    whereInProject:
-      'Project này dùng inline styles + CSS variables (đơn giản nhất, ít magic). Xem `frontend/src/index.css` cho biến CSS toàn cục (`--primary`, `--bg`).',
-    whenToCare:
-      'Mọi dự án đều cần styling. Tailwind là lựa chọn an toàn nhất hiện nay — Claude Code rất giỏi viết Tailwind class. Nhưng dự án nhỏ thì inline style cũng đủ.',
-    vidu:
-      'Tailwind: `<button class="bg-blue-500 text-white px-4 py-2 rounded">Click</button>` — đọc class là biết style. CSS thuần: phải mở file CSS riêng để xem.',
-    loiThuongGap:
-      'Mix nhiều tool styling trong cùng project (Tailwind + CSS Modules + styled-components). Hỗn loạn. Quy tắc: chọn 1 tool, dùng nhất quán.',
-    alternatives: [
-      { label: 'Tailwind CSS', iconSlug: 'tailwindcss', note: 'Phổ biến nhất, Claude rất giỏi' },
-      { label: 'CSS Modules', iconSlug: 'css', note: 'Truyền thống, nhiều dự án cũ' },
-      { label: 'shadcn/ui', iconSlug: 'shadcnui', note: 'Component library trên Tailwind' },
     ],
   },
   {
@@ -349,31 +173,25 @@ git log         # xem lịch sử`,
     loiThuongGap:
       'Hardcode màu/spacing ở mỗi chỗ thay vì dùng design system. Khi cần đổi theme → sửa 100 chỗ. Quy tắc: dùng CSS variables hoặc Tailwind theme.',
   },
+  {
+    id: 'fe-javascript',
+    cluster: 'frontend',
+    label: 'JavaScript',
+    whatIs:
+      'Ngôn ngữ làm cho frontend "sống". HTML là cấu trúc, CSS là trang điểm, JavaScript là hành vi — xử lý click, chuyển trang, animation, gọi API. Không có JS thì site chỉ là tờ giấy tĩnh.',
+    whereInProject:
+      'Tất cả file `.tsx` trong `frontend/src/` được compile thành JavaScript khi build. TypeScript là phiên bản nâng cao của JavaScript — thêm type checking để bắt bug sớm.',
+    whenToCare:
+      'JavaScript là ngôn ngữ duy nhất chạy trên trình duyệt. Mọi tương tác phía user (click, hover, animation) đều cần JS. Mình ít khi viết JS thuần — Claude tạo TypeScript, build tool compile sang JS.',
+    vidu:
+      'Click vào 1 node trên roadmap này → DetailPanel slide ra. Đó là JavaScript event handler chạy trên trình duyệt user. Không cần gọi server, mọi xử lý local.',
+    loiThuongGap:
+      'Lạm dụng JavaScript cho mọi thứ (kể cả static content). Site nặng, load chậm, SEO kém. Quy tắc: HTML/CSS làm được thì dùng HTML/CSS, JavaScript chỉ cho tương tác.',
+  },
 
   // ═══════════════════════════════════════════════════════════════
-  // 4. BACKEND
+  // 3. BACKEND
   // ═══════════════════════════════════════════════════════════════
-  {
-    id: 'be-framework',
-    cluster: 'backend',
-    label: 'Framework',
-    whatIs:
-      'Bộ công cụ build server backend. Cung cấp sẵn router (URL → hàm xử lý), middleware (xử lý request trước khi đến hàm chính), và pattern chuẩn. Không phải tự viết server từ đầu.',
-    whereInProject:
-      'Project dùng FastAPI (Python). Xem `backend/app/main.py` — chỉ cần `app = FastAPI()` và `app.include_router(...)` là có server hoàn chỉnh.',
-    whenToCare:
-      'Mỗi backend đều cần framework. Chọn framework theo ngôn ngữ: Python → FastAPI, Node → Express/Hono, Go → Gin/Echo. Claude Code biết tất cả.',
-    vidu:
-      'FastAPI tự generate trang `/docs` (Swagger UI) liệt kê tất cả endpoint, có chỗ test luôn — không cần Postman. Đó là tính năng built-in của framework.',
-    loiThuongGap:
-      'Tự viết HTTP server từ scratch để "học sâu". Tốn thời gian, code thiếu features (CORS, validation, docs). Quy tắc: dùng framework phổ biến cho mọi dự án thật.',
-    alternatives: [
-      { label: 'FastAPI', iconSlug: 'fastapi', note: 'Python, modern, auto-doc' },
-      { label: 'Express', iconSlug: 'express', note: 'Node.js, lâu đời, nhiều người dùng' },
-      { label: 'Rails', iconSlug: 'rubyonrails', note: 'Ruby, "convention over config"' },
-      { label: 'Django', iconSlug: 'django', note: 'Python, full-featured cho dự án to' },
-    ],
-  },
   {
     id: 'be-api',
     cluster: 'backend',
@@ -391,134 +209,60 @@ git log         # xem lịch sử`,
     alternatives: [
       { label: 'REST', note: 'Phổ biến nhất, dễ hiểu, dễ debug' },
       { label: 'GraphQL', iconSlug: 'graphql', note: 'Linh hoạt, dùng khi data phức tạp' },
+      { label: 'JSON APIs', note: 'Format chuẩn cho REST' },
+      { label: 'gRPC', note: 'Nhanh, dùng cho microservices nội bộ' },
     ],
   },
   {
-    id: 'be-orm',
+    id: 'be-database',
     cluster: 'backend',
-    label: 'ORM',
+    label: 'Database',
     whatIs:
-      '"Phiên dịch" giữa code và database. Thay vì viết SQL trực tiếp, viết Python class → ORM tự generate SQL. An toàn hơn (không bị SQL injection), code đọc dễ hơn.',
+      'Nơi lưu data lâu dài. Server tắt rồi mở lại, data vẫn còn. Có 2 loại chính: Relational (PostgreSQL, MySQL — tổ chức như Excel với hàng/cột) và NoSQL (MongoDB — linh hoạt như JSON). 95% web app SMB chọn PostgreSQL.',
     whereInProject:
-      'Project dùng SQLAlchemy. Xem `backend/app/models.py` — `class SiteConfig(Base)` là 1 ORM model, map sang bảng `site_config` trong Postgres.',
+      'Schema (cấu trúc bảng): `backend/init.sql`. Models (Python class map sang bảng): `backend/app/models.py`. Database thật chạy trên Railway như 1 service riêng.',
     whenToCare:
-      'Mỗi backend có database thường dùng ORM. Trừ khi viết query phức tạp lạ kiểu (analytics, reporting), thì bypass ORM dùng SQL thuần.',
+      'Khi cần lưu thông tin để dùng lại (user info, settings, posts...). Bắt đầu với PostgreSQL — Claude Code rất quen, miễn phí trên Railway, đáp ứng 95% nhu cầu.',
     vidu:
-      '`db.get(SiteConfig, "site_title")` (Python) tự generate `SELECT * FROM site_config WHERE key = \'site_title\'` (SQL). Mình không phải nhớ cú pháp SQL.',
+      'Bảng `users` (id, email, password) + bảng `posts` (id, user_id, content). user_id ở `posts` link đến id ở `users` — đó là "relational". MongoDB lưu dạng document `{ _id, name, custom_fields... }` — schema tự do, nhưng query phức tạp khó.',
     loiThuongGap:
-      'Lạm dụng ORM cho mọi query. Một số query rất phức tạp (joins lớn, aggregations) thì SQL thuần nhanh hơn 10x. Quy tắc: ORM cho 90% case, SQL thuần cho 10% performance-critical.',
+      'Bắt đầu với MongoDB vì "trendier", rồi đổi sang Postgres khi data có quan hệ phức tạp. Tốn công migrate data + rewrite query. Quy tắc: Postgres mặc định, đổi sau nếu có lý do cụ thể.',
+    code: `CREATE TABLE site_config (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);`,
+    codeLang: 'sql',
     alternatives: [
-      { label: 'SQLAlchemy', note: 'Python, mature, mạnh nhất' },
-      { label: 'Prisma', iconSlug: 'prisma', note: 'TypeScript/Node, type-safe' },
-      { label: 'Drizzle', note: 'TypeScript, mới hơn, gần SQL hơn' },
+      { label: 'PostgreSQL', iconSlug: 'postgresql', note: 'Mặc định cho dự án mới — relational, mạnh nhất' },
+      { label: 'MySQL', iconSlug: 'mysql', note: 'Relational, lâu đời, nhiều dự án legacy' },
+      { label: 'MongoDB', iconSlug: 'mongodb', note: 'NoSQL, linh hoạt schema, document store' },
+      { label: 'SQLite', iconSlug: 'sqlite', note: 'File đơn, cho dự án nhỏ, no setup' },
     ],
   },
   {
-    id: 'be-runtime',
+    id: 'be-storage',
     cluster: 'backend',
-    label: 'Server runtime',
+    label: 'Object Storage',
     whatIs:
-      '"Động cơ" chạy code backend trên server. Code Python không tự chạy — cần một runtime nhận request HTTP và đưa vào code. Như xe có động cơ, runtime là động cơ của backend.',
+      'Lưu file lớn (ảnh, video, PDF) ngoài database. DB không nên lưu file lớn — chậm, đắt. Object storage rẻ ($0.015/GB/tháng) và tối ưu cho file. Database lưu metadata (text, URL); object storage lưu file thật.',
     whereInProject:
-      'Lệnh `uvicorn app.main:app` trong `Dockerfile` — Uvicorn là runtime cho FastAPI. Nó listen port, nhận request, gọi hàm Python tương ứng.',
+      'Project này chưa có. Khi thêm upload ảnh (avatar user, ảnh sản phẩm), cần Cloudflare R2 hoặc AWS S3.',
     whenToCare:
-      'Khi deploy production, cần chọn runtime đủ mạnh để xử lý nhiều request đồng thời. Cho 95% case, runtime mặc định của framework là đủ.',
+      'Mọi app cho user upload file. Đừng lưu base64 trong DB — DB to nhanh chóng, query chậm dần.',
     vidu:
-      'Dev local: `uvicorn --reload` (auto reload khi sửa code). Production: `uvicorn --workers 4` (4 process song song xử lý request). Same code, khác config.',
+      'User upload avatar → frontend gửi file đến backend → backend upload lên R2 → R2 trả URL → backend lưu URL trong DB (chỉ text, nhẹ). Khi hiển thị → frontend load ảnh từ URL R2 trực tiếp.',
     loiThuongGap:
-      'Quên đổi runtime config khi đi production (vẫn dùng `--reload`). Performance kém. Quy tắc: dev và prod dùng config khác nhau.',
+      'Lưu base64 ảnh trong DB. DB phình to 10GB sau 1000 user. Backup đắt. Quy tắc: file nhị phân → object storage, DB chỉ lưu URL text.',
     alternatives: [
-      { label: 'Uvicorn', note: 'Cho FastAPI, chuẩn' },
-      { label: 'Gunicorn', note: 'Truyền thống cho Python' },
-      { label: 'Node', iconSlug: 'nodedotjs', note: 'Cho Express/Hono' },
-      { label: 'Bun', iconSlug: 'bun', note: 'Mới, nhanh hơn Node 3x' },
+      { label: 'Cloudflare R2', iconSlug: 'cloudflare', note: 'Rẻ nhất, không phí egress' },
+      { label: 'AWS S3', iconSlug: 'amazons3', note: 'Tiêu chuẩn, đắt egress' },
+      { label: 'Google Cloud Storage', iconSlug: 'googlecloud', note: 'GCP ecosystem' },
     ],
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // 5. DATABASE
-  // ═══════════════════════════════════════════════════════════════
-  {
-    id: 'db-relational',
-    cluster: 'database',
-    label: 'Relational DB',
-    whatIs:
-      'Database tổ chức data theo bảng (như Excel): hàng và cột. Các bảng nối với nhau qua "khóa" (id). Phù hợp cho 90% web app — user, post, đơn hàng, etc.',
-    whereInProject:
-      'Project dùng PostgreSQL trên Railway. Schema (cấu trúc bảng) ở `backend/init.sql` — 2 bảng: `site_config` và `admin_session`.',
-    whenToCare:
-      'Mặc định cho mọi web app SMB. Khi không chắc chọn loại DB nào → chọn Postgres. Mạnh, miễn phí, Claude Code rất quen.',
-    vidu:
-      'Bảng `users` có cột id, email, password. Bảng `posts` có cột id, user_id, content. user_id ở `posts` link đến id ở `users` — đó là "relational".',
-    loiThuongGap:
-      'Bắt đầu với MongoDB vì "trendier" rồi đổi sang Postgres khi data phức tạp lên. Tốn công migrate. Quy tắc: bắt đầu với Postgres, đổi sau nếu cần.',
-    alternatives: [
-      { label: 'PostgreSQL', iconSlug: 'postgresql', note: 'Mặc định cho mọi dự án' },
-      { label: 'MySQL', iconSlug: 'mysql', note: 'Cũ, nhiều dự án legacy' },
-      { label: 'SQLite', iconSlug: 'sqlite', note: 'File đơn, cho dự án rất nhỏ' },
-    ],
-  },
-  {
-    id: 'db-nosql',
-    cluster: 'database',
-    label: 'NoSQL DB',
-    whatIs:
-      'Database không theo bảng cố định. Lưu data dạng "document" (như JSON) — mỗi record có cấu trúc khác nhau. Linh hoạt hơn, nhưng khó cho data có quan hệ phức tạp.',
-    whereInProject:
-      'Project này KHÔNG dùng NoSQL. Nhưng nếu mình build app cần lưu document linh hoạt (ví dụ: profile user với schema thay đổi liên tục), MongoDB là lựa chọn.',
-    whenToCare:
-      'Hiếm khi cần. Trừ khi schema thay đổi nhanh hoặc data cực lớn (Big Data). 95% web app dùng Postgres tốt hơn.',
-    vidu:
-      'MongoDB lưu document: `{ _id: 123, name: "Việt", interests: ["AI", "SEO"], custom_field: "..."}`. Document khác có thể không có `interests` mà có field khác — không cần khai báo trước.',
-    loiThuongGap:
-      'Dùng MongoDB cho web app thường. Sau 6 tháng nhận ra data có quan hệ phức tạp, query khó. Quy tắc: chỉ chọn NoSQL khi đã rõ lý do, không vì "trend".',
-    alternatives: [
-      { label: 'MongoDB', iconSlug: 'mongodb', note: 'Document DB phổ biến nhất' },
-      { label: 'DynamoDB', iconSlug: 'amazondynamodb', note: 'AWS, cho scale lớn' },
-    ],
-  },
-  {
-    id: 'db-cache',
-    cluster: 'database',
-    label: 'Cache',
-    whatIs:
-      'Database tốc độ cao, lưu tạm trong RAM. Dùng để lưu data hay đọc nhưng ít đổi (config, kết quả query nặng). Đọc từ cache nhanh hơn 100x so với DB chính.',
-    whereInProject:
-      'Project này KHÔNG có cache (quy mô nhỏ, chưa cần). Khi traffic to lên, có thể thêm Redis để cache response của `/config` (đỡ hit DB mỗi lần).',
-    whenToCare:
-      'Khi DB query chậm hoặc traffic lớn. Dấu hiệu: page load chậm, DB tốn nhiều CPU. Thêm cache thường giải quyết được.',
-    vidu:
-      'API gọi `/config` trả ra cùng 1 kết quả mọi lần. Thay vì SELECT từ DB mỗi request (mất 50ms), cache 60 giây trong Redis (mất 1ms). 50x nhanh hơn.',
-    loiThuongGap:
-      'Cache mọi thứ "for the lulz". Khi data đổi mà cache chưa expire → user thấy data cũ. Quy tắc: chỉ cache cái ít đổi, set TTL hợp lý.',
-    alternatives: [
-      { label: 'Redis', iconSlug: 'redis', note: 'Phổ biến nhất, mạnh' },
-      { label: 'Memcached', note: 'Đơn giản hơn Redis, ít features' },
-    ],
-  },
-  {
-    id: 'db-vector',
-    cluster: 'database',
-    label: 'Vector DB',
-    whatIs:
-      'Database lưu "embedding" — vector số biểu diễn ý nghĩa của text/ảnh. Cho phép search "ý nghĩa tương tự" thay vì khớp text chính xác. Cốt lõi của AI-powered apps (RAG, semantic search).',
-    whereInProject:
-      'Project này không dùng. Nhưng nếu build chatbot trả lời từ docs công ty, hoặc semantic search SEO, cần vector DB.',
-    whenToCare:
-      'Bất cứ dự án AI nào dùng "Retrieval-Augmented Generation" (RAG): user hỏi → search docs → đưa context vào prompt cho Claude/GPT → trả lời. Search bước 2 cần vector DB.',
-    vidu:
-      'pgvector (extension cho Postgres) cho phép thêm cột `embedding vector(1536)` vào bảng. Search "tìm doc tương tự" với 1 dòng SQL. Không cần dùng DB riêng.',
-    loiThuongGap:
-      'Dùng Pinecone cho dự án nhỏ (overkill, $70/tháng). Quy tắc: bắt đầu với pgvector (free, đã có Postgres), đổi sau nếu cần scale.',
-    alternatives: [
-      { label: 'pgvector', iconSlug: 'postgresql', note: 'Extension cho Postgres, free' },
-      { label: 'Pinecone', note: 'Managed service, scale lớn' },
-      { label: 'Weaviate', note: 'Open source, nhiều features' },
-    ],
-  },
-
-  // ═══════════════════════════════════════════════════════════════
-  // 6. SECURITY
+  // 4. SECURITY
   // ═══════════════════════════════════════════════════════════════
   {
     id: 'sec-auth',
@@ -603,7 +347,7 @@ git log         # xem lịch sử`,
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // 7. TRIỂN KHAI
+  // 5. TRIỂN KHAI
   // ═══════════════════════════════════════════════════════════════
   {
     id: 'infra-docker',
@@ -683,28 +427,9 @@ git log         # xem lịch sử`,
       { label: 'GoDaddy', note: 'Phổ biến nhưng đắt' },
     ],
   },
-  {
-    id: 'infra-cdn',
-    cluster: 'infra',
-    label: 'CDN',
-    whatIs:
-      'Content Delivery Network — mạng lưới server toàn cầu, cache file tĩnh (ảnh, JS, CSS) gần user. User Hà Nội load file từ server Singapore (10ms) thay vì Mỹ (200ms).',
-    whereInProject:
-      'Cloudflare CDN auto-active khi config domain qua Cloudflare. Không config gì thêm.',
-    whenToCare:
-      'Mọi web app có user toàn cầu. CDN miễn phí (Cloudflare) làm site nhanh gấp 5-10 lần ở các vùng xa server.',
-    vidu:
-      'User Mỹ load ảnh logo: lần đầu fetch từ server Việt Nam (chậm). CDN cache lại trên edge server gần user → lần sau load từ edge (nhanh).',
-    loiThuongGap:
-      'Cache file động (như API response cá nhân hóa) thay vì static. User A thấy data của user B. Quy tắc: chỉ cache file tĩnh (ảnh, JS, CSS), không cache API data.',
-    alternatives: [
-      { label: 'Cloudflare CDN', iconSlug: 'cloudflare', note: 'Free tier mạnh' },
-      { label: 'Vercel Edge', iconSlug: 'vercel', note: 'Tích hợp với Vercel hosting' },
-    ],
-  },
 
   // ═══════════════════════════════════════════════════════════════
-  // 8. VẬN HÀNH
+  // 6. VẬN HÀNH
   // ═══════════════════════════════════════════════════════════════
   {
     id: 'ops-logs',
@@ -776,28 +501,50 @@ git log         # xem lịch sử`,
       'Tự host SMTP. Email từ IP cá nhân/server lạ → Gmail/Outlook đánh spam ngay. Quy tắc: dùng dịch vụ chuyên, có warmed-up IP.',
     alternatives: [
       { label: 'Resend', iconSlug: 'resend', note: 'Modern, dev-friendly' },
-      { label: 'SendGrid', iconSlug: 'maildotru', note: 'Lâu đời, scale lớn' },
+      { label: 'SendGrid', note: 'Lâu đời, scale lớn' },
       { label: 'Nodemailer', note: 'Library Node để gửi qua SMTP' },
     ],
   },
+
+  // ═══════════════════════════════════════════════════════════════
+  // 7. SOURCE CONTROL (cuối)
+  // ═══════════════════════════════════════════════════════════════
   {
-    id: 'ops-storage',
-    cluster: 'ops',
-    label: 'Object Storage',
+    id: 'git',
+    cluster: 'source-control',
+    label: 'Git',
     whatIs:
-      'Lưu file lớn (ảnh, video, PDF) ngoài database. DB không nên lưu file lớn — chậm, đắt. Object storage rẻ ($0.015/GB/tháng) và tối ưu cho file.',
+      'Tool ghi lại lịch sử thay đổi code. Như Track Changes trong Word, nhưng cho cả thư mục code, mạnh hơn nhiều. Mỗi lần lưu → 1 "snapshot" gọi là commit. Có thể quay về snapshot cũ bất cứ lúc nào.',
     whereInProject:
-      'Project chưa có. Khi thêm upload ảnh (avatar user, ảnh sản phẩm), cần Cloudflare R2 hoặc AWS S3.',
+      'Folder `.git/` (ẩn) trong root của project lưu toàn bộ lịch sử. Không bao giờ động vào folder này thủ công — Git tự quản.',
     whenToCare:
-      'Mọi app cho user upload file. Đừng lưu base64 trong DB — DB to nhanh chóng, query chậm dần.',
+      'Mỗi lần làm xong 1 chunk công việc → tạo 1 commit. Git là phao cứu sinh: lỡ làm hỏng thì rollback về commit gần nhất.',
     vidu:
-      'User upload avatar → frontend gửi file đến backend → backend upload lên R2 → R2 trả URL → backend lưu URL trong DB (chỉ text, nhẹ). Khi hiển thị → frontend load ảnh từ URL R2 trực tiếp.',
+      'Đang chỉnh giao diện admin, không ưng → `git checkout .` để rollback về commit gần nhất, mất 1 giây. Không có Git thì phải sửa thủ công ngược lại từng dòng.',
     loiThuongGap:
-      'Lưu base64 ảnh trong DB. DB phình to 10GB sau 1000 user. Backup đắt. Quy tắc: file nhị phân → object storage, DB chỉ lưu URL text.',
+      'Commit cả tuần một lần với 50 file thay đổi. Khi cần rollback một chuyện cụ thể thì không tách ra được. Quy tắc: 1 commit = 1 thay đổi rõ ràng.',
+    code: `git add .
+git commit -m "thêm trang admin"
+git log         # xem lịch sử`,
+    codeLang: 'bash',
+  },
+  {
+    id: 'github',
+    cluster: 'source-control',
+    label: 'GitHub',
+    whatIs:
+      'Dịch vụ lưu code online, dùng Git. Như Google Drive cho code, nhưng tích hợp sẵn tools cho team work: review code, theo dõi bug, deploy tự động.',
+    whereInProject:
+      'Repo này: github.com/hdviettt/web-app-cho-claude-code (public, ai cũng đọc được). Code mình push lên đây, Railway tự pull về để deploy.',
+    whenToCare:
+      'Build với Claude Code mà không push lên GitHub = code chỉ sống trên 1 máy. Máy hỏng = mất hết. Push lên GitHub = backup miễn phí + share được với team.',
+    vidu:
+      'Anh push commit "thêm trang admin" lên GitHub → Railway tự nhận signal → build + deploy → 3 phút sau site có trang admin mới. Không cần thao tác gì khác.',
+    loiThuongGap:
+      'Commit `.env` (chứa password, API key) lên GitHub. Code public → ai cũng dùng được API mình → mất tiền/dữ liệu. Quy tắc: thêm `.env` vào `.gitignore` ngay từ đầu.',
     alternatives: [
-      { label: 'Cloudflare R2', iconSlug: 'cloudflare', note: 'Rẻ nhất, không phí egress' },
-      { label: 'AWS S3', iconSlug: 'amazons3', note: 'Tiêu chuẩn, đắt egress' },
-      { label: 'Google Cloud Storage', iconSlug: 'googlecloud', note: 'GCP ecosystem' },
+      { label: 'GitLab', iconSlug: 'gitlab', note: 'Tự host được, dùng cho team enterprise' },
+      { label: 'Bitbucket', iconSlug: 'bitbucket', note: 'Tích hợp với Atlassian (Jira)' },
     ],
   },
 ]

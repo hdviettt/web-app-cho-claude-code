@@ -7,16 +7,10 @@ interface RoadmapProps {
 }
 
 const CANVAS_W = 1200
-const CANVAS_H = 3300
+const CANVAS_H = 2700
 const SPINE_X = 600
 
-// ─── Box variants matching roadmap.sh aesthetic ────────────────────
-// yellow: primary topic on spine (clickable)
-// peach:  alternative option (clickable)
-// purple: sub-concept boxes (Hàm/Biến/Thư viện, HTML/CSS/JS)
-// white:  info note / advanced concept
-
-type BoxColor = 'yellow' | 'peach' | 'purple' | 'white'
+type BoxColor = 'yellow' | 'peach' | 'purple'
 
 interface NodeLayout {
   x: number
@@ -26,63 +20,44 @@ interface NodeLayout {
   color: BoxColor
 }
 
-// All clickable nodes (data-driven from diagram.ts)
 const layout: Record<string, NodeLayout> = {
-  // ═══ Section: Khái niệm cơ bản ═══
-  language:  { x: 490, y: 320, w: 220, h: 56, color: 'yellow' },
-  function:  { x: 360, y: 410, w: 130, h: 38, color: 'purple' },
-  variable:  { x: 530, y: 410, w: 130, h: 38, color: 'purple' },
-  library:   { x: 700, y: 410, w: 130, h: 38, color: 'purple' },
+  // ═══ S1: Lập trình & ngôn ngữ ═══
+  language: { x: 490, y: 200, w: 220, h: 56, color: 'yellow' },
 
-  // ═══ Section: Frontend ═══
-  'fe-framework': { x: 490, y: 600, w: 220, h: 56, color: 'yellow' },
-  'fe-build':     { x: 490, y: 700, w: 220, h: 56, color: 'yellow' },
-  'fe-styling':   { x: 490, y: 800, w: 220, h: 56, color: 'yellow' },
-  'fe-html':      { x: 360, y: 920, w: 130, h: 38, color: 'purple' },
-  'fe-css':       { x: 530, y: 920, w: 130, h: 38, color: 'purple' },
+  // ═══ S2: Frontend ═══
+  'fe-framework':  { x: 490, y: 410, w: 220, h: 56, color: 'yellow' },
+  'fe-html':       { x: 290, y: 510, w: 130, h: 38, color: 'purple' },
+  'fe-css':        { x: 470, y: 510, w: 130, h: 38, color: 'purple' },
+  'fe-javascript': { x: 650, y: 510, w: 150, h: 38, color: 'purple' },
 
-  // ═══ Section: Backend ═══
-  'be-framework': { x: 490, y: 1110, w: 220, h: 56, color: 'yellow' },
-  'be-api':       { x: 490, y: 1210, w: 220, h: 56, color: 'yellow' },
-  'be-orm':       { x: 490, y: 1310, w: 220, h: 56, color: 'yellow' },
-  'be-runtime':   { x: 490, y: 1410, w: 220, h: 56, color: 'yellow' },
+  // ═══ S3: Backend ═══
+  'be-api':      { x: 490, y: 690, w: 220, h: 56, color: 'yellow' },
+  'be-database': { x: 490, y: 790, w: 220, h: 56, color: 'yellow' },
+  'be-storage':  { x: 490, y: 890, w: 220, h: 56, color: 'yellow' },
 
-  // ═══ Section: Database (sub-section of backend) ═══
-  // These live inside a big container — positions relative to canvas
-  'db-relational': { x: 130, y: 1620, w: 150, h: 38, color: 'peach' },
-  'db-nosql':      { x: 350, y: 1620, w: 150, h: 38, color: 'peach' },
-  'db-cache':      { x: 700, y: 1620, w: 150, h: 38, color: 'peach' },
-  'db-vector':     { x: 920, y: 1620, w: 150, h: 38, color: 'peach' },
+  // ═══ S4: Security ═══
+  'sec-auth':   { x: 490, y: 1080, w: 220, h: 56, color: 'yellow' },
+  'sec-authz':  { x: 490, y: 1180, w: 220, h: 56, color: 'yellow' },
+  'sec-env':    { x: 490, y: 1280, w: 220, h: 56, color: 'yellow' },
+  'sec-https':  { x: 490, y: 1380, w: 220, h: 56, color: 'yellow' },
+  'sec-cors':   { x: 490, y: 1480, w: 220, h: 56, color: 'yellow' },
 
-  // ═══ Section: Source Control ═══
-  git:            { x: 490, y: 1880, w: 220, h: 56, color: 'yellow' },
-  github:         { x: 490, y: 1980, w: 220, h: 56, color: 'yellow' },
-  branch:         { x: 360, y: 2080, w: 150, h: 42, color: 'peach' },
-  'pull-request': { x: 690, y: 2080, w: 150, h: 42, color: 'peach' },
+  // ═══ S5: Triển khai ═══
+  'infra-docker':  { x: 490, y: 1680, w: 220, h: 56, color: 'yellow' },
+  'infra-hosting': { x: 490, y: 1780, w: 220, h: 56, color: 'yellow' },
+  'infra-cicd':    { x: 490, y: 1880, w: 220, h: 56, color: 'yellow' },
+  'infra-domain':  { x: 490, y: 1980, w: 220, h: 56, color: 'yellow' },
 
-  // ═══ Section: Security ═══
-  'sec-auth':   { x: 490, y: 2240, w: 220, h: 56, color: 'yellow' },
-  'sec-env':    { x: 490, y: 2340, w: 220, h: 56, color: 'yellow' },
-  'sec-https':  { x: 490, y: 2440, w: 220, h: 56, color: 'yellow' },
-  'sec-authz':  { x: 360, y: 2540, w: 150, h: 38, color: 'peach' },
-  'sec-cors':   { x: 690, y: 2540, w: 150, h: 38, color: 'peach' },
+  // ═══ S6: Vận hành ═══
+  'ops-logs':       { x: 490, y: 2180, w: 220, h: 56, color: 'yellow' },
+  'ops-monitoring': { x: 490, y: 2280, w: 220, h: 56, color: 'yellow' },
+  'ops-analytics':  { x: 490, y: 2380, w: 220, h: 56, color: 'yellow' },
+  'ops-email':      { x: 490, y: 2480, w: 220, h: 56, color: 'yellow' },
 
-  // ═══ Section: Triển khai ═══
-  'infra-hosting': { x: 490, y: 2700, w: 220, h: 56, color: 'yellow' },
-  'infra-domain':  { x: 490, y: 2800, w: 220, h: 56, color: 'yellow' },
-  'infra-cdn':     { x: 490, y: 2900, w: 220, h: 56, color: 'yellow' },
-  'infra-docker':  { x: 360, y: 3000, w: 150, h: 38, color: 'peach' },
-  'infra-cicd':    { x: 690, y: 3000, w: 150, h: 38, color: 'peach' },
-
-  // ═══ Section: Vận hành ═══
-  'ops-analytics':  { x: 130, y: 3160, w: 150, h: 38, color: 'peach' },
-  'ops-logs':       { x: 320, y: 3160, w: 150, h: 38, color: 'peach' },
-  'ops-monitoring': { x: 510, y: 3160, w: 150, h: 38, color: 'peach' },
-  'ops-email':      { x: 700, y: 3160, w: 150, h: 38, color: 'peach' },
-  'ops-storage':    { x: 890, y: 3160, w: 150, h: 38, color: 'peach' },
+  // ═══ S7: Source Control ═══
+  git:    { x: 490, y: 2590, w: 220, h: 56, color: 'yellow' },
+  github: { x: 490, y: 2690, w: 220, h: 56, color: 'yellow' },
 }
-
-// ─── Floating section titles (no box, just bold text on spine) ────
 
 interface SectionTitle {
   text: string
@@ -90,218 +65,98 @@ interface SectionTitle {
 }
 
 const SECTIONS: SectionTitle[] = [
-  { text: 'Khái niệm cơ bản', y: 230 },
-  { text: 'Frontend',         y: 530 },
-  { text: 'Backend',          y: 1040 },
-  { text: 'Database',         y: 1540 },
-  { text: 'Source Control',   y: 1810 },
-  { text: 'Security',         y: 2170 },
-  { text: 'Triển khai',       y: 2630 },
-  { text: 'Vận hành',         y: 3090 },
+  { text: 'Lập trình & ngôn ngữ', y: 110 },
+  { text: 'Frontend',             y: 320 },
+  { text: 'Backend',              y: 600 },
+  { text: 'Security',             y: 990 },
+  { text: 'Triển khai',           y: 1590 },
+  { text: 'Vận hành',             y: 2090 },
+  { text: 'Source Control',       y: 2500 },
 ]
-
-// ─── Plain white containers (black border, no header bar) ─────────
-// Label appears as plain text at top center inside container (or external).
 
 interface Container {
   x: number
   y: number
   w: number
   h: number
-  label?: string                    // text label at top inside, optional
-  externalLabel?: { text: string; align: 'top' | 'left' }  // label outside container
+  externalLabel: string
+  side: 'left' | 'right'
 }
 
+// Containers: alt cluster cho mỗi primary có alternatives
 const CONTAINERS: Container[] = [
-  // S1: Language alts (2x3 grid) — outside-labeled
-  { x: 60, y: 280, w: 380, h: 130, externalLabel: { text: 'Lựa chọn ngôn ngữ', align: 'top' } },
-
-  // S2: Frontend Framework alts
-  { x: 760, y: 580, w: 380, h: 100, externalLabel: { text: 'Framework lựa chọn', align: 'top' } },
-
-  // S2: Frontend Build tool alts
-  { x: 60, y: 690, w: 380, h: 80, externalLabel: { text: 'Build tools', align: 'top' } },
-
-  // S2: Styling alts
-  { x: 760, y: 780, w: 380, h: 100, externalLabel: { text: 'Styling lựa chọn', align: 'top' } },
-
-  // S3: Backend Framework alts
-  { x: 60, y: 1090, w: 380, h: 130, externalLabel: { text: 'Backend Framework', align: 'top' } },
-
-  // S3: API alts
-  { x: 760, y: 1190, w: 380, h: 130, externalLabel: { text: 'API Styles', align: 'top' } },
-
-  // S3: ORM alts
-  { x: 60, y: 1290, w: 380, h: 100, externalLabel: { text: 'ORM lựa chọn', align: 'top' } },
-
-  // S3: Runtime alts
-  { x: 760, y: 1390, w: 380, h: 130, externalLabel: { text: 'Server runtime', align: 'top' } },
-
-  // S4 Database: BIG container with 4 sub-categories ─────
-  { x: 50, y: 1590, w: 1100, h: 200, label: 'Database — chọn theo loại data' },
-
-  // S6: Hosting alts
-  { x: 760, y: 2680, w: 380, h: 130, externalLabel: { text: 'Hosting platform', align: 'top' } },
-
-  // S6: Domain alts
-  { x: 60, y: 2780, w: 380, h: 100, externalLabel: { text: 'Domain provider', align: 'top' } },
-
-  // S6: CDN alts
-  { x: 760, y: 2880, w: 380, h: 100, externalLabel: { text: 'CDN', align: 'top' } },
-
-  // S5: Auth alts
-  { x: 760, y: 2220, w: 380, h: 130, externalLabel: { text: 'Auth methods', align: 'top' } },
-
-  // S5: Env vars - no alts container needed
+  { x: 60,  y: 180, w: 380, h: 130, externalLabel: 'Lựa chọn ngôn ngữ',     side: 'left' },     // language
+  { x: 760, y: 390, w: 380, h: 130, externalLabel: 'Framework lựa chọn',    side: 'right' },    // fe-framework
+  { x: 60,  y: 670, w: 380, h: 130, externalLabel: 'API styles',            side: 'left' },     // be-api
+  { x: 760, y: 770, w: 380, h: 130, externalLabel: 'Database lựa chọn',     side: 'right' },    // be-database
+  { x: 60,  y: 870, w: 380, h: 130, externalLabel: 'Object Storage',        side: 'left' },     // be-storage
+  { x: 760, y: 1060, w: 380, h: 130, externalLabel: 'Auth methods',         side: 'right' },    // sec-auth
+  { x: 760, y: 1760, w: 380, h: 130, externalLabel: 'Hosting platform',     side: 'right' },    // infra-hosting
+  { x: 60,  y: 1860, w: 380, h: 100, externalLabel: 'CI/CD',                side: 'left' },     // infra-cicd
+  { x: 760, y: 1960, w: 380, h: 100, externalLabel: 'Domain provider',      side: 'right' },    // infra-domain
+  { x: 60,  y: 2260, w: 380, h: 100, externalLabel: 'Monitoring',           side: 'left' },     // ops-monitoring
+  { x: 760, y: 2360, w: 380, h: 130, externalLabel: 'Analytics',            side: 'right' },    // ops-analytics
+  { x: 60,  y: 2460, w: 380, h: 100, externalLabel: 'Email',                side: 'left' },     // ops-email
+  { x: 760, y: 2670, w: 380, h: 100, externalLabel: 'Repo hosting',         side: 'right' },    // github
 ]
-
-// Sub-cells inside Database container (4 mini-categories)
-interface SubCell {
-  x: number
-  y: number
-  w: number
-  h: number
-  label: string
-}
-
-const DATABASE_SUBCELLS: SubCell[] = [
-  { x: 80,  y: 1610, w: 250, h: 165, label: 'Quan hệ (Relational)' },
-  { x: 350, y: 1610, w: 220, h: 165, label: 'NoSQL' },
-  { x: 590, y: 1610, w: 220, h: 165, label: 'Cache' },
-  { x: 830, y: 1610, w: 280, h: 165, label: 'Vector DB' },
-]
-
-// ─── Tip boxes (white bg, gray border, plain CTA-style) ────────────
-
-interface TipBox {
-  x: number
-  y: number
-  w: number
-  h: number
-  body: string
-}
-
-const TIPS: TipBox[] = [
-  {
-    x: 60, y: 460, w: 380, h: 80,
-    body: 'Marketer non-tech: chọn 1 ngôn ngữ và build 5 dự án nhỏ trước khi học cái thứ hai. Một ngôn ngữ làm được 80% mọi thứ.',
-  },
-  {
-    x: 760, y: 920, w: 380, h: 80,
-    body: 'Đừng học HTML/CSS sâu — Claude generate được rồi. Mình chỉ cần biết phân biệt 2 cái này là gì để đọc output.',
-  },
-  {
-    x: 60, y: 1980, w: 380, h: 80,
-    body: 'Solo dev: chỉ cần Git + GitHub. Bỏ qua Branch/PR cho đến khi có team. Push code thường xuyên.',
-  },
-]
-
-// ─── Edges (explicit connectors) ───────────────────────────────────
-
-interface Edge {
-  from: string         // node id or 'spine:Y' for spine point
-  to: string           // node id or 'container:N' for container index
-  style: 'solid' | 'dotted' | 'fan'
-}
-
-const EDGES: Edge[] = [
-  // S1
-  { from: 'spine:240', to: 'language', style: 'solid' },
-  { from: 'language', to: 'function', style: 'solid' },
-  { from: 'language', to: 'variable', style: 'solid' },
-  { from: 'language', to: 'library',  style: 'solid' },
-  { from: 'language', to: 'container:0', style: 'dotted' },  // language → lang container
-
-  // S2
-  { from: 'spine:540', to: 'fe-framework', style: 'solid' },
-  { from: 'fe-framework', to: 'fe-build', style: 'solid' },
-  { from: 'fe-build', to: 'fe-styling', style: 'solid' },
-  { from: 'fe-styling', to: 'fe-html', style: 'solid' },
-  { from: 'fe-styling', to: 'fe-css', style: 'solid' },
-  { from: 'fe-framework', to: 'container:1', style: 'dotted' },
-  { from: 'fe-build', to: 'container:2', style: 'dotted' },
-  { from: 'fe-styling', to: 'container:3', style: 'dotted' },
-
-  // S3
-  { from: 'spine:1050', to: 'be-framework', style: 'solid' },
-  { from: 'be-framework', to: 'be-api', style: 'solid' },
-  { from: 'be-api', to: 'be-orm', style: 'solid' },
-  { from: 'be-orm', to: 'be-runtime', style: 'solid' },
-  { from: 'be-framework', to: 'container:4', style: 'dotted' },
-  { from: 'be-api', to: 'container:5', style: 'dotted' },
-  { from: 'be-orm', to: 'container:6', style: 'dotted' },
-  { from: 'be-runtime', to: 'container:7', style: 'dotted' },
-
-  // S3-DB: ORM connects down to database container
-  { from: 'be-runtime', to: 'container:8', style: 'solid' },
-
-  // S4
-  { from: 'spine:1820', to: 'git', style: 'solid' },
-  { from: 'git', to: 'github', style: 'solid' },
-  { from: 'github', to: 'branch', style: 'solid' },
-  { from: 'github', to: 'pull-request', style: 'solid' },
-
-  // S5
-  { from: 'spine:2180', to: 'sec-auth', style: 'solid' },
-  { from: 'sec-auth', to: 'sec-env', style: 'solid' },
-  { from: 'sec-env', to: 'sec-https', style: 'solid' },
-  { from: 'sec-https', to: 'sec-authz', style: 'solid' },
-  { from: 'sec-https', to: 'sec-cors', style: 'solid' },
-  { from: 'sec-auth', to: 'container:12', style: 'dotted' },
-
-  // S6
-  { from: 'spine:2640', to: 'infra-hosting', style: 'solid' },
-  { from: 'infra-hosting', to: 'infra-domain', style: 'solid' },
-  { from: 'infra-domain', to: 'infra-cdn', style: 'solid' },
-  { from: 'infra-cdn', to: 'infra-docker', style: 'solid' },
-  { from: 'infra-cdn', to: 'infra-cicd', style: 'solid' },
-  { from: 'infra-hosting', to: 'container:9', style: 'dotted' },
-  { from: 'infra-domain', to: 'container:10', style: 'dotted' },
-  { from: 'infra-cdn', to: 'container:11', style: 'dotted' },
-]
-
-// ─── Chip layout (alts inside containers) ──────────────────────────
 
 interface ChipPlacement {
   parentId: string
-  containerIdx: number  // which container they belong to
+  containerIdx: number
   cols: number
 }
 
 const CHIP_PLACEMENTS: ChipPlacement[] = [
-  { parentId: 'language',       containerIdx: 0, cols: 2 },
-  { parentId: 'fe-framework',   containerIdx: 1, cols: 2 },
-  { parentId: 'fe-build',       containerIdx: 2, cols: 2 },
-  { parentId: 'fe-styling',     containerIdx: 3, cols: 2 },
-  { parentId: 'be-framework',   containerIdx: 4, cols: 2 },
-  { parentId: 'be-api',         containerIdx: 5, cols: 2 },
-  { parentId: 'be-orm',         containerIdx: 6, cols: 2 },
-  { parentId: 'be-runtime',     containerIdx: 7, cols: 2 },
-  { parentId: 'infra-hosting',  containerIdx: 9, cols: 2 },
-  { parentId: 'infra-domain',   containerIdx: 10, cols: 2 },
-  { parentId: 'infra-cdn',      containerIdx: 11, cols: 2 },
-  { parentId: 'sec-auth',       containerIdx: 12, cols: 2 },
+  { parentId: 'language',       containerIdx: 0,  cols: 2 },
+  { parentId: 'fe-framework',   containerIdx: 1,  cols: 2 },
+  { parentId: 'be-api',         containerIdx: 2,  cols: 2 },
+  { parentId: 'be-database',    containerIdx: 3,  cols: 2 },
+  { parentId: 'be-storage',     containerIdx: 4,  cols: 1 },
+  { parentId: 'sec-auth',       containerIdx: 5,  cols: 2 },
+  { parentId: 'infra-hosting',  containerIdx: 6,  cols: 2 },
+  { parentId: 'infra-cicd',     containerIdx: 7,  cols: 2 },
+  { parentId: 'infra-domain',   containerIdx: 8,  cols: 2 },
+  { parentId: 'ops-monitoring', containerIdx: 9,  cols: 2 },
+  { parentId: 'ops-analytics',  containerIdx: 10, cols: 2 },
+  { parentId: 'ops-email',      containerIdx: 11, cols: 2 },
+  { parentId: 'github',         containerIdx: 12, cols: 2 },
 ]
 
-interface DbSubChip {
-  subCellIdx: number
-  parentId: string
+interface Edge {
+  from: string
+  to: string
+  style: 'solid' | 'dotted'
 }
 
-const DB_SUB_CHIPS: DbSubChip[] = [
-  { subCellIdx: 0, parentId: 'db-relational' },
-  { subCellIdx: 1, parentId: 'db-nosql' },
-  { subCellIdx: 2, parentId: 'db-cache' },
-  { subCellIdx: 3, parentId: 'db-vector' },
+const EDGES: Edge[] = [
+  // S1
+  { from: 'language', to: 'container:0', style: 'dotted' },
+  // S2
+  { from: 'fe-framework', to: 'container:1', style: 'dotted' },
+  { from: 'fe-framework', to: 'fe-html',       style: 'solid' },
+  { from: 'fe-framework', to: 'fe-css',        style: 'solid' },
+  { from: 'fe-framework', to: 'fe-javascript', style: 'solid' },
+  // S3
+  { from: 'be-api',      to: 'container:2', style: 'dotted' },
+  { from: 'be-database', to: 'container:3', style: 'dotted' },
+  { from: 'be-storage',  to: 'container:4', style: 'dotted' },
+  // S4
+  { from: 'sec-auth', to: 'container:5', style: 'dotted' },
+  // S5
+  { from: 'infra-hosting', to: 'container:6', style: 'dotted' },
+  { from: 'infra-cicd',    to: 'container:7', style: 'dotted' },
+  { from: 'infra-domain',  to: 'container:8', style: 'dotted' },
+  // S6
+  { from: 'ops-monitoring', to: 'container:9',  style: 'dotted' },
+  { from: 'ops-analytics',  to: 'container:10', style: 'dotted' },
+  { from: 'ops-email',      to: 'container:11', style: 'dotted' },
+  // S7
+  { from: 'github', to: 'container:12', style: 'dotted' },
 ]
 
 // ─── Helpers ───────────────────────────────────────────────────────
 
 function getEndpoint(ref: string): { x: number; y: number; w: number; h: number } | null {
-  if (ref.startsWith('spine:')) {
-    const y = parseInt(ref.split(':')[1], 10)
-    return { x: SPINE_X - 1, y, w: 2, h: 0 }
-  }
   if (ref.startsWith('container:')) {
     const idx = parseInt(ref.split(':')[1], 10)
     const c = CONTAINERS[idx]
@@ -339,7 +194,7 @@ function bezier(fx: number, fy: number, tx: number, ty: number): string {
   return `M ${fx} ${fy} C ${fx} ${cp}, ${tx} ${cp}, ${tx} ${ty}`
 }
 
-// ─── Chip placement compute ────────────────────────────────────────
+// ─── Chip placement ────────────────────────────────────────────────
 
 const CHIP_W = 130
 const CHIP_H = 28
@@ -370,23 +225,6 @@ function computeChips(): ChipPos[] {
         alt,
         x: startX + (i % cols) * (CHIP_W + CHIP_GAP_X),
         y: startY + Math.floor(i / cols) * (CHIP_H + CHIP_GAP_Y),
-      })
-    })
-  }
-  // Database sub-cells: 1 chip per sub-category showing main alt
-  for (const sub of DB_SUB_CHIPS) {
-    const node = diagramNodes.find((n) => n.id === sub.parentId)
-    const cell = DATABASE_SUBCELLS[sub.subCellIdx]
-    if (!node?.alternatives || !cell) continue
-    const alts = node.alternatives
-    // 1 column inside subcell
-    const startX = cell.x + (cell.w - CHIP_W) / 2
-    const startY = cell.y + 60 // below subcell label + parent box
-    alts.forEach((alt, i) => {
-      result.push({
-        alt,
-        x: startX,
-        y: startY + i * (CHIP_H + CHIP_GAP_Y),
       })
     })
   }
@@ -421,7 +259,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           height={CANVAS_H}
           style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
         >
-          {/* Continuous spine */}
+          {/* Spine */}
           <path
             d={`M ${SPINE_X} 60 L ${SPINE_X} ${CANVAS_H - 30}`}
             stroke="#3B82F6"
@@ -445,36 +283,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
             />
           ))}
 
-          {/* Database sub-cells */}
-          {DATABASE_SUBCELLS.map((cell, i) => (
-            <rect
-              key={`sub-${i}`}
-              x={cell.x}
-              y={cell.y}
-              width={cell.w}
-              height={cell.h}
-              fill="white"
-              stroke="#1F2937"
-              strokeWidth={1.5}
-              rx={6}
-            />
-          ))}
-
-          {/* Tip boxes */}
-          {TIPS.map((tip, i) => (
-            <rect
-              key={`t-${i}`}
-              x={tip.x}
-              y={tip.y}
-              width={tip.w}
-              height={tip.h}
-              fill="white"
-              stroke="#94A3B8"
-              strokeWidth={1.5}
-              rx={6}
-            />
-          ))}
-
           {/* Edges */}
           {EDGES.map((edge, i) => {
             const from = getEndpoint(edge.from)
@@ -495,80 +303,29 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           })}
         </svg>
 
-        {/* Container labels (text-only, no header bar) */}
-        {CONTAINERS.map((c, i) => {
-          if (c.label) {
-            return (
-              <div
-                key={`cl-${i}`}
-                style={{
-                  position: 'absolute',
-                  left: c.x + c.w / 2,
-                  top: c.y + 8,
-                  transform: 'translateX(-50%)',
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#1F2937',
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  zIndex: 3,
-                  background: 'white',
-                  padding: '0 8px',
-                }}
-              >
-                {c.label}
-              </div>
-            )
-          }
-          if (c.externalLabel) {
-            return (
-              <div
-                key={`cl-${i}`}
-                style={{
-                  position: 'absolute',
-                  left: c.x + c.w / 2,
-                  top: c.y - 18,
-                  transform: 'translateX(-50%)',
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: '#64748B',
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  zIndex: 3,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {c.externalLabel.text}
-              </div>
-            )
-          }
-          return null
-        })}
-
-        {/* Database sub-cell labels */}
-        {DATABASE_SUBCELLS.map((cell, i) => (
+        {/* Container external labels */}
+        {CONTAINERS.map((c, i) => (
           <div
-            key={`sc-l-${i}`}
+            key={`cl-${i}`}
             style={{
               position: 'absolute',
-              left: cell.x + cell.w / 2,
-              top: cell.y + 6,
+              left: c.x + c.w / 2,
+              top: c.y - 18,
               transform: 'translateX(-50%)',
               fontSize: 11,
               fontWeight: 700,
-              color: '#1F2937',
+              color: '#64748B',
               letterSpacing: '0.04em',
-              zIndex: 3,
-              background: 'white',
-              padding: '0 6px',
               textTransform: 'uppercase',
+              zIndex: 3,
+              whiteSpace: 'nowrap',
             }}
           >
-            {cell.label}
+            {c.externalLabel}
           </div>
         ))}
 
-        {/* Floating section titles (no box) */}
+        {/* Floating section titles on spine */}
         {SECTIONS.map((s) => (
           <div
             key={s.text}
@@ -588,26 +345,6 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
             }}
           >
             {s.text}
-          </div>
-        ))}
-
-        {/* Tip boxes content */}
-        {TIPS.map((tip, i) => (
-          <div
-            key={`tb-${i}`}
-            style={{
-              position: 'absolute',
-              left: tip.x + 14,
-              top: tip.y + 12,
-              width: tip.w - 28,
-              fontSize: 13,
-              lineHeight: 1.45,
-              color: '#475569',
-              zIndex: 3,
-              pointerEvents: 'none',
-            }}
-          >
-            {tip.body}
           </div>
         ))}
 
@@ -656,13 +393,12 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
 }
 
 function primaryBoxStyle(l: NodeLayout, isSelected: boolean): CSSProperties {
-  const colorMap: Record<BoxColor, { bg: string; border: string; text: string }> = {
-    yellow: { bg: '#FFD93B', border: '#1F2937', text: '#1F2937' },
-    peach:  { bg: '#FFE4B5', border: '#1F2937', text: '#1F2937' },
-    purple: { bg: '#DDD6FE', border: '#1F2937', text: '#1F2937' },
-    white:  { bg: '#FFFFFF', border: '#1F2937', text: '#1F2937' },
+  const colorMap: Record<BoxColor, string> = {
+    yellow: '#FFD93B',
+    peach:  '#FFE4B5',
+    purple: '#DDD6FE',
   }
-  const c = isSelected ? { bg: '#FCA5A5', border: '#1F2937', text: '#1F2937' } : colorMap[l.color]
+  const bg = isSelected ? '#FCA5A5' : colorMap[l.color]
   return {
     all: 'unset',
     boxSizing: 'border-box',
@@ -671,8 +407,8 @@ function primaryBoxStyle(l: NodeLayout, isSelected: boolean): CSSProperties {
     top: l.y,
     width: l.w,
     height: l.h,
-    background: c.bg,
-    border: `2.5px solid ${c.border}`,
+    background: bg,
+    border: '2.5px solid #1F2937',
     borderRadius: 7,
     boxShadow: '4px 4px 0 #1F2937',
     display: 'flex',
@@ -680,7 +416,7 @@ function primaryBoxStyle(l: NodeLayout, isSelected: boolean): CSSProperties {
     justifyContent: 'center',
     fontSize: l.h < 45 ? 13 : 14,
     fontWeight: l.h < 45 ? 500 : 600,
-    color: c.text,
+    color: '#1F2937',
     cursor: 'pointer',
     textAlign: 'center',
     padding: '0 10px',
