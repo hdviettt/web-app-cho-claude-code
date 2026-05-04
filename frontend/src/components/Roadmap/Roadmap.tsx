@@ -37,10 +37,10 @@ const layout: Record<string, NodeLayout> = {
 
   // ═══ S4: Security — Auth là core (yellow), 4 cái khác là checklist (peach inside container) ═══
   'sec-auth':   { x: 490, y: 1080, w: 220, h: 56, color: 'yellow' },
-  'sec-authz':  { x: 100, y: 1240, w: 220, h: 38, color: 'peach' },
-  'sec-env':    { x: 350, y: 1240, w: 220, h: 38, color: 'peach' },
-  'sec-https':  { x: 600, y: 1240, w: 220, h: 38, color: 'peach' },
-  'sec-cors':   { x: 850, y: 1240, w: 220, h: 38, color: 'peach' },
+  'sec-authz':  { x: 100, y: 1230, w: 220, h: 46, color: 'peach' },
+  'sec-env':    { x: 350, y: 1230, w: 220, h: 46, color: 'peach' },
+  'sec-https':  { x: 600, y: 1230, w: 220, h: 46, color: 'peach' },
+  'sec-cors':   { x: 850, y: 1230, w: 220, h: 46, color: 'peach' },
 
   // ═══ S5: Triển khai — Hosting/Domain là core, Docker/CI-CD là tools (peach inside container) ═══
   'infra-hosting': { x: 490, y: 1430, w: 220, h: 56, color: 'yellow' },
@@ -93,7 +93,7 @@ const CONTAINERS: Container[] = [
   { x: 760, y: 1930, w: 380, h: 130, externalLabel: 'Repo hosting' },         // 8 github
 
   // Special wrapping containers (peach items inside, label internal)
-  { x: 60,  y: 1190, w: 1080, h: 110, externalLabel: 'Web Security checklist' },     // 9 — wraps Authz/Env/HTTPS/CORS
+  { x: 60,  y: 1180, w: 1080, h: 130, externalLabel: 'Web Security checklist' },     // 9 — wraps Authz/Env/HTTPS/CORS
   { x: 180, y: 1640, w: 840,  h: 100, externalLabel: 'Tools — Claude tự lo phần lớn' }, // 10 — wraps Docker/CI-CD
 ]
 
@@ -239,8 +239,17 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           height={CANVAS_H}
           style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
         >
+          {/* Spine — multi-arc bezier for organic flow (±15px around SPINE_X) */}
           <path
-            d={`M ${SPINE_X} 60 L ${SPINE_X} ${CANVAS_H - 30}`}
+            d={`
+              M ${SPINE_X} 60
+              C ${SPINE_X} 200, ${SPINE_X + 12} 200, ${SPINE_X + 12} 320
+              C ${SPINE_X + 12} 480, ${SPINE_X - 12} 480, ${SPINE_X - 12} 600
+              C ${SPINE_X - 12} 800, ${SPINE_X + 15} 800, ${SPINE_X + 15} 990
+              C ${SPINE_X + 15} 1160, ${SPINE_X - 15} 1160, ${SPINE_X - 15} 1340
+              C ${SPINE_X - 15} 1560, ${SPINE_X + 12} 1560, ${SPINE_X + 12} 1760
+              L ${SPINE_X + 12} ${CANVAS_H - 30}
+            `}
             stroke="#3B82F6"
             strokeWidth={2.5}
             fill="none"
@@ -346,6 +355,7 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
           const l = layout[node.id]
           if (!l) return null
           const isSelected = node.id === selectedNodeId
+          const isChecklistItem = node.id.startsWith('sec-') && node.id !== 'sec-auth'
           return (
             <button
               key={node.id}
@@ -354,6 +364,25 @@ export function Roadmap({ selectedNodeId, onNodeClick }: RoadmapProps) {
               onClick={() => onNodeClick(node.id)}
               style={primaryBoxStyle(l, isSelected)}
             >
+              {isChecklistItem && (
+                <svg
+                  width={16}
+                  height={16}
+                  viewBox="0 0 16 16"
+                  style={{ marginRight: 8, flexShrink: 0 }}
+                  aria-hidden
+                >
+                  <circle cx={8} cy={8} r={7} fill="#10B981" stroke="#1F2937" strokeWidth={1.5} />
+                  <path
+                    d="M5 8 L7 10 L11 6"
+                    stroke="white"
+                    strokeWidth={2}
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
               {node.label}
             </button>
           )
