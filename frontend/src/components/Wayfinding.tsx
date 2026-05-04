@@ -5,7 +5,7 @@ const SECTIONS = [
   { id: 'sec-frontend',       label: 'Frontend' },
   { id: 'sec-backend',        label: 'Backend' },
   { id: 'sec-security',       label: 'Security' },
-  { id: 'sec-infra',          label: 'Triển khai' },
+  { id: 'sec-infra',          label: 'Deployment' },
   { id: 'sec-source-control', label: 'Source Control' },
 ]
 

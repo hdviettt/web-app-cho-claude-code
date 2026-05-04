@@ -51,7 +51,7 @@ export const clusters: Cluster[] = [
   },
   {
     id: 'infra',
-    title: 'Triển khai',
+    title: 'Deployment',
     subtitle: 'Đẩy code lên server cho cả thế giới truy cập',
     accent: '#10b981',
   },
