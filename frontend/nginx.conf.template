@@ -1,0 +1,27 @@
+# Nginx config — template cho Railway.
+# `${PORT}` sẽ được entrypoint nginx-alpine substitute lúc start.
+server {
+    listen ${PORT};
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # SPA: route 404 về index.html để React Router xử lý.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache hash-named assets lâu (Vite gắn hash vào filename).
+    location ~* \.(js|css|svg|png|jpg|jpeg|woff2?)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Health endpoint cho Railway probe.
+    location = /healthz {
+        access_log off;
+        return 200 "ok\n";
+        add_header Content-Type text/plain;
+    }
+}
