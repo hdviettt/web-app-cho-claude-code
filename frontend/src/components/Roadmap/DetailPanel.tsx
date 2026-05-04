@@ -83,6 +83,54 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
         {node.code && (
           <CodeSection code={node.code} lang={node.codeLang ?? 'bash'} accent={cluster.accent} />
         )}
+        {node.alternatives && node.alternatives.length > 0 && (
+          <section style={{ marginBottom: '1.5rem' }}>
+            <h3
+              style={{
+                fontSize: 11,
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+                color: cluster.accent,
+                margin: '0 0 0.6rem',
+                fontWeight: 600,
+              }}
+            >
+              Lựa chọn khác
+            </h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {node.alternatives.map((alt) => (
+                <li
+                  key={alt.label}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 10,
+                    fontSize: 14,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {alt.iconSlug ? (
+                    <img
+                      src={`https://cdn.simpleicons.org/${alt.iconSlug}/${cluster.accent.slice(1)}`}
+                      width={18}
+                      height={18}
+                      alt=""
+                      style={{ marginTop: 2, flexShrink: 0 }}
+                    />
+                  ) : (
+                    <span style={{ width: 18, flexShrink: 0 }} />
+                  )}
+                  <span>
+                    <strong style={{ fontWeight: 600 }}>{alt.label}</strong>
+                    {alt.note && (
+                      <span style={{ color: 'var(--muted)' }}> — {alt.note}</span>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         {node.readMore && (
           <Section title="Đọc thêm">
             <a
