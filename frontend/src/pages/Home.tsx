@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Canvas } from '../components/Diagram/Canvas'
-import { DetailPanel } from '../components/Diagram/DetailPanel'
+import { Roadmap } from '../components/Roadmap/Roadmap'
+import { DetailPanel } from '../components/Roadmap/DetailPanel'
 import { diagramNodes } from '../data/diagram'
 import { getConfig, type SiteConfig } from '../lib/api'
 
@@ -8,7 +8,6 @@ export default function Home() {
   const [config, setConfig] = useState<SiteConfig | null>(null)
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null)
 
-  // Lúc mount: fetch config từ backend, apply vào CSS variable + document.title.
   useEffect(() => {
     getConfig()
       .then((cfg) => {
@@ -16,9 +15,7 @@ export default function Home() {
         document.documentElement.style.setProperty('--primary', cfg.primary_color)
         document.title = cfg.site_title
       })
-      .catch((err) => {
-        console.error('Không fetch được config:', err)
-      })
+      .catch((err) => console.error('Không fetch được config:', err))
   }, [])
 
   const selectedNode = selectedNodeId
@@ -26,28 +23,83 @@ export default function Home() {
     : null
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--surface)' }}>
       <header
         style={{
-          padding: '1rem 1.5rem',
-          borderBottom: '1px solid var(--border)',
           background: 'white',
-          zIndex: 5,
+          borderBottom: '1px solid var(--border)',
+          padding: '2.5rem 1.5rem 2rem',
+          textAlign: 'center',
         }}
       >
-        <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 600 }}>
-          {config?.site_title ?? 'Web App cho Claude Code'}
-        </h1>
-        <p style={{ margin: '0.25rem 0 0', color: 'var(--muted)', fontSize: '0.875rem' }}>
-          Bấm vào từng node để xem chi tiết. Tài liệu sống cho buổi 2 khóa Claude Code cho SEO.
-        </p>
+        <div style={{ maxWidth: 720, margin: '0 auto' }}>
+          <div
+            style={{
+              display: 'inline-block',
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--primary)',
+              background: 'color-mix(in srgb, var(--primary) 10%, transparent)',
+              padding: '4px 10px',
+              borderRadius: 999,
+              marginBottom: '1rem',
+            }}
+          >
+            Buổi 2 · Khóa Claude Code cho SEO
+          </div>
+          <h1
+            style={{
+              margin: '0 0 0.5rem',
+              fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+              fontWeight: 600,
+              letterSpacing: '-0.02em',
+              lineHeight: 1.15,
+            }}
+          >
+            {config?.site_title ?? 'Web App cho Claude Code'}
+          </h1>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 'clamp(0.95rem, 2vw, 1.0625rem)',
+              color: 'var(--muted)',
+              lineHeight: 1.55,
+            }}
+          >
+            Anatomy của một web app fullstack — qua chính website này. Bấm vào từng node để
+            xem định nghĩa, ví dụ thực tế, lỗi thường gặp, và code mẫu.
+          </p>
+        </div>
       </header>
-      <div style={{ flex: 1, display: 'flex', position: 'relative', minHeight: 0 }}>
-        <Canvas onNodeClick={setSelectedNodeId} selectedNodeId={selectedNodeId} />
-        {selectedNode && (
-          <DetailPanel node={selectedNode} onClose={() => setSelectedNodeId(null)} />
-        )}
-      </div>
+
+      <Roadmap selectedNodeId={selectedNodeId} onNodeClick={setSelectedNodeId} />
+
+      {selectedNode && (
+        <DetailPanel node={selectedNode} onClose={() => setSelectedNodeId(null)} />
+      )}
+
+      <footer
+        style={{
+          padding: '2rem 1.5rem',
+          textAlign: 'center',
+          fontSize: 13,
+          color: 'var(--muted)',
+          borderTop: '1px solid var(--border)',
+          background: 'white',
+        }}
+      >
+        Open source ·{' '}
+        <a
+          href="https://github.com/hdviettt/web-app-cho-claude-code"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'var(--primary)' }}
+        >
+          github.com/hdviettt/web-app-cho-claude-code
+        </a>
+      </footer>
     </div>
   )
 }

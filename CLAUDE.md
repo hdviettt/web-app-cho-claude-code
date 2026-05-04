@@ -12,7 +12,7 @@ Một web app nhỏ với 2 services tách rời (frontend Vite+React, backend F
 
 | Layer | Stack |
 |-------|-------|
-| Frontend | Vite + React 19 + TypeScript strict, React Flow cho diagram |
+| Frontend | Vite + React 19 + TypeScript strict, layout HTML/CSS thuần (không React Flow) |
 | Backend | FastAPI (Python 3.11), SQLAlchemy 2 async + asyncpg |
 | Database | PostgreSQL 16 (Railway add-on) |
 | Auth | Session cookie HttpOnly, password trong env var |
@@ -24,9 +24,9 @@ Một web app nhỏ với 2 services tách rời (frontend Vite+React, backend F
 ```
 frontend/          # Vite SPA, pure client
   src/
-    pages/         # Home (diagram), AdminLogin, Admin
-    components/Diagram/   # Canvas, Node, DetailPanel
-    data/diagram.ts       # nodes + edges + Vietnamese copy
+    pages/         # Home (roadmap), AdminLogin, Admin
+    components/Roadmap/   # Roadmap, ClusterColumn, ItemCard, DetailPanel
+    data/diagram.ts       # 3 clusters + 11 nodes + Vietnamese copy
     lib/api.ts            # fetch wrapper
 backend/           # FastAPI server
   app/
@@ -86,7 +86,7 @@ Cần `.env` ở root (copy từ `.env.example`). DATABASE_URL trỏ đến Post
 
 ## Architecture Notes
 
-- **Diagram component**: dùng React Flow vì click-to-expand + drag/zoom có sẵn, không phải hand-roll SVG. Layout horizontal, root node ở giữa, 2 cluster (Lập trình cơ bản + Web app anatomy).
+- **Roadmap component**: layout 3-column HTML/CSS (CSS Grid), không React Flow. 3 cluster: Lập trình cơ bản (sky blue, Ngôn ngữ + 3 children), Web app anatomy (purple, FE/BE/DB/Auth), Triển khai (emerald, Deploy/Hosting/Domain). Click vào card → DetailPanel slide từ phải. Mỗi node có 7 trường: whatIs, whereInProject, whenToCare, vidu, loiThuongGap, code (+ codeLang), readMore.
 - **Config system**: `site_config` là key/value table đơn giản. Frontend fetch `GET /config` lúc mount, apply CSS variable `--primary` từ `primary_color`.
 - **Auth flow**: POST `/auth/login` → tạo random session token, lưu vào `admin_session` table, set HttpOnly cookie. Middleware đọc cookie → check token + expires_at. Logout = xóa row + clear cookie.
 - **Init**: `backend/app/main.py` chạy `init.sql` lúc startup nếu `site_config` rỗng. Idempotent.
